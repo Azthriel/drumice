@@ -1,0 +1,1 @@
+{"hosting":{"public":"build/web","ignore":["firebase.json","**/.*","**/node_modules/**"]},"flutter":{"platforms":{"dart":{"lib/firebase_options.dart":{"projectId":"drumice-ef734","configurations":{"web":"1:1096107826947:web:09d6c2689379aa1d1f9336"}}}}}}
