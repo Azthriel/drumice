@@ -51,7 +51,8 @@ class PedidosSection extends StatelessWidget {
                   children: _steps(context)
                       .map((w) => Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: w,
                             ),
                           ))
@@ -59,6 +60,11 @@ class PedidosSection extends StatelessWidget {
                 ),
 
           const SizedBox(height: 72),
+
+          // ── Retiro / Envío badge row ──────────────────────────────
+          _DeliveryBadgeRow(isMobile: isMobile),
+
+          const SizedBox(height: 48),
 
           // ── CTA card ──────────────────────────────────────────────
           Container(
@@ -85,9 +91,9 @@ class PedidosSection extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Seo.text(
-                  text: '+54 9 11 5474-8921 · Solo retiro · Hurlingham, Buenos Aires',
+                  text: '+54 9 11 5474-8921 · Retiro o envío a zona Hurlingham',
                   child: Text(
-                    '+54 9 11 5474-8921  ·  Solo retiro  ·  Hurlingham, Buenos Aires',
+                    '+54 9 11 5474-8921  ·  Retiro o envío a zona Hurlingham',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -95,7 +101,8 @@ class PedidosSection extends StatelessWidget {
                 const SizedBox(height: 36),
                 Seo.link(
                   href: _waUrl,
-                  anchor: 'Escribir a Drum Ice por WhatsApp para hacer un pedido de helado',
+                  anchor:
+                      'Escribir a Drum Ice por WhatsApp para hacer un pedido de helado',
                   child: ElevatedButton.icon(
                     onPressed: () => launchUrl(Uri.parse(_waUrl)),
                     icon: const Text('💬', style: TextStyle(fontSize: 22)),
@@ -137,16 +144,118 @@ class PedidosSection extends StatelessWidget {
         emoji: '💬',
         title: 'Escribinos por WhatsApp',
         description:
-            'Mandanos un mensaje al +54 9 11 5474-8921 con tu pedido y acordamos el retiro.',
+            'Mandanos un mensaje al +54 9 11 5474-8921 con tu pedido y acordamos el retiro o envío.',
       ),
       const _StepCard(
         number: '3',
         emoji: '🏡',
-        title: 'Retirá en Hurlingham',
+        title: 'Retirá o recibilo en casa',
         description:
-            'Coordinamos día y horario. Venís y te llevás tu helado artesanal fresquito.',
+            'Podés venir a buscar tu pedido a Hurlingham o te lo llevamos a domicilio dentro de la zona.',
       ),
     ];
+  }
+}
+
+/// Dos badges lado a lado mostrando las opciones de entrega.
+class _DeliveryBadgeRow extends StatelessWidget {
+  final bool isMobile;
+  const _DeliveryBadgeRow({required this.isMobile});
+
+  @override
+  Widget build(BuildContext context) {
+    final badges = [
+      const _DeliveryBadge(
+        emoji: '🏡',
+        title: 'Retiro en Hurlingham',
+        subtitle: 'Venís y te llevás tu helado',
+        color: AppTheme.palePink,
+        accent: AppTheme.pink,
+      ),
+      const _DeliveryBadge(
+        emoji: '🛵',
+        title: 'Envío a zona Hurlingham',
+        subtitle: 'Lo coordinamos por WhatsApp',
+        color: AppTheme.paleBlue,
+        accent: AppTheme.lightBlue,
+      ),
+    ];
+
+    return isMobile
+        ? Column(
+            children: badges
+                .map((b) => Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: b,
+                    ))
+                .toList(),
+          )
+        : Row(
+            children: badges
+                .map((b) => Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: b,
+                      ),
+                    ))
+                .toList(),
+          );
+  }
+}
+
+class _DeliveryBadge extends StatelessWidget {
+  final String emoji;
+  final String title;
+  final String subtitle;
+  final Color color;
+  final Color accent;
+
+  const _DeliveryBadge({
+    required this.emoji,
+    required this.title,
+    required this.subtitle,
+    required this.color,
+    required this.accent,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: accent.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        children: [
+          Text(emoji, style: const TextStyle(fontSize: 32)),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Seo.text(
+                  text: title,
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Seo.text(
+                  text: subtitle,
+                  child: Text(
+                    subtitle,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -170,7 +279,7 @@ class _StepCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppTheme.palePink,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: AppTheme.pink.withValues(alpha:0.25)),
+        border: Border.all(color: AppTheme.pink.withValues(alpha: 0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

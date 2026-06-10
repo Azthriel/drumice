@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:quarks_footer/quarks_footer.dart';
 import 'package:seo/seo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/app_theme.dart';
 
-/// Footer nativo para Flutter Web.
-/// Equivalente al quarks_footer package (que es Flutter-only y no se puede usar en Jaspr).
-class QuarksFooter extends StatelessWidget {
-  const QuarksFooter({super.key});
+class Footer extends StatelessWidget {
+  const Footer({super.key});
+
+  // TODO: reemplazá con el link real de Instagram cuando lo tengas
+  static const _instagramUrl = 'https://instagram.com/drumice';
 
   @override
   Widget build(BuildContext context) {
@@ -27,66 +29,26 @@ class QuarksFooter extends StatelessWidget {
                   children: [
                     _LogoBlock(isMobile: isMobile),
                     const SizedBox(height: 32),
-                    _LinksBlock(isMobile: isMobile),
+                    _LinksBlock(
+                      isMobile: isMobile,
+                      instagramUrl: _instagramUrl,
+                    ),
                   ],
                 )
               : Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(child: _LogoBlock(isMobile: isMobile)),
-                    _LinksBlock(isMobile: isMobile),
+                    _LinksBlock(
+                      isMobile: isMobile,
+                      instagramUrl: _instagramUrl,
+                    ),
                   ],
                 ),
-
-          const SizedBox(height: 40),
-          Divider(color: Colors.white.withValues(alpha:0.08)),
-          const SizedBox(height: 24),
-
-          // ── Copyright + Made by Quarks ────────────────────────────
-          isMobile
-              ? Column(
-                  children: [
-                    _copyright(context),
-                    const SizedBox(height: 8),
-                    _madeBy(context),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _copyright(context),
-                    _madeBy(context),
-                  ],
-                ),
+          const SizedBox(height: 48),
+          const QuarksFooter(
+              backgroundColor: AppTheme.darkBg, textColor: Colors.white),
         ],
-      ),
-    );
-  }
-
-  Widget _copyright(BuildContext context) {
-    return Seo.text(
-      text: '© 2025 Drum Ice. Todos los derechos reservados.',
-      child: Text(
-        '© 2025 Drum Ice. Todos los derechos reservados.',
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Colors.white24,
-            ),
-      ),
-    );
-  }
-
-  Widget _madeBy(BuildContext context) {
-    return Seo.link(
-      href: 'https://quarksstudio.com.ar',
-      anchor: 'Quarks Studio – desarrollo de apps Flutter',
-      child: GestureDetector(
-        onTap: () => launchUrl(Uri.parse('https://quarksstudio.com.ar')),
-        child: Text(
-          'Made with ❤️ by Quarks Studio',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.white38,
-              ),
-        ),
       ),
     );
   }
@@ -131,11 +93,11 @@ class _LogoBlock extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        // Schema adicional para Google
         Seo.text(
-          text: 'Pedidos por WhatsApp al +54 9 11 5474-8921. Solo retiro.',
+          text:
+              'Pedidos por WhatsApp al +54 9 11 5474-8921. Retiro y envíos a zona Hurlingham.',
           child: Text(
-            'Pedidos por WhatsApp · Solo retiro',
+            'Pedidos por WhatsApp · Retiro y envíos a zona Hurlingham',
             textAlign: isMobile ? TextAlign.center : TextAlign.left,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Colors.white24,
@@ -149,29 +111,41 @@ class _LogoBlock extends StatelessWidget {
 
 class _LinksBlock extends StatelessWidget {
   final bool isMobile;
-  const _LinksBlock({required this.isMobile});
+  final String instagramUrl;
+
+  const _LinksBlock({
+    required this.isMobile,
+    required this.instagramUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment:
           isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.end,
-      children: const [
-        _FooterLink(
+      children: [
+        const _FooterLink(
           emoji: '💬',
           label: 'WhatsApp',
           url: 'https://wa.me/5491154748921',
           color: AppTheme.whatsappGreen,
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         _FooterLink(
+          emoji: '📸',
+          label: 'Instagram',
+          url: instagramUrl,
+          color: const Color(0xFFE1306C),
+        ),
+        const SizedBox(height: 10),
+        const _FooterLink(
           emoji: '📍',
           label: 'Hurlingham, Buenos Aires',
           url: 'https://maps.google.com/?q=Hurlingham+Buenos+Aires',
           color: Colors.white54,
         ),
-        SizedBox(height: 10),
-        _FooterLink(
+        const SizedBox(height: 10),
+        const _FooterLink(
           emoji: '🏴‍☠️',
           label: 'Inspirado en One Piece',
           url: 'https://onepiece.fandom.com/wiki/Drum_Island',
@@ -222,7 +196,7 @@ class _FooterLinkState extends State<_FooterLink> {
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: _hover
                           ? widget.color
-                          : widget.color.withValues(alpha:0.7),
+                          : widget.color.withValues(alpha: 0.7),
                     ),
                 child: Text(widget.label),
               ),

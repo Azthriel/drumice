@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:seo/seo.dart';
-
 import '../sections/navbar_section.dart';
 import '../sections/hero_section.dart';
 import '../sections/historia_section.dart';
 import '../sections/sabores_section.dart';
 import '../sections/pedidos_section.dart';
-import '../widgets/quarks_footer.dart';
+import '../widgets/footer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -80,7 +79,7 @@ class _HomePageState extends State<HomePage> {
               child: PedidosSection(key: _pedidosKey),
             ),
             const SliverToBoxAdapter(
-              child: QuarksFooter(),
+              child: Footer(),
             ),
           ],
         ),

@@ -4,9 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:quarks_version_checker/quarks_version_checker.dart';
 import 'package:seo/seo.dart';
 import 'theme/app_theme.dart';
 import 'pages/home_page.dart';
+import 'pages/not_found_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +17,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+    try {
+    await AppVersionChecker.instance.start();
+  } catch (_) {}
   runApp(const DrumIceApp());
 }
 
@@ -25,13 +30,18 @@ class DrumIceApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return SeoController(
       enabled: true,
-      // WidgetTree es la implementación recomendada (vs SemanticsTree experimental)
       tree: WidgetTree(context: context),
       child: MaterialApp(
         title: 'Drum Ice',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.theme,
-        home: const HomePage(),
+        initialRoute: '/',
+        routes: {
+          '/': (_) => const HomePage(),
+        },
+        onUnknownRoute: (_) => MaterialPageRoute(
+          builder: (_) => const NotFoundPage(),
+        ),
       ),
     );
   }

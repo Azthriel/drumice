@@ -21,6 +21,14 @@ dependencies:
   # Abrir WhatsApp
   url_launcher: ^6.3.1
   firebase_core: ^4.10.0
+  quarks_footer:
+    git:
+      url: https://github.com/Quarks-Studio/quarks_footer.git
+      ref: v1.2.0
+  quarks_version_checker:
+    git:
+      url: https://github.com/quarks-studio/quarks_version_checker
+      ref: v1.1.0
 
 dev_dependencies:
   flutter_test:

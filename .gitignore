@@ -49,3 +49,4 @@ pubspec.lock
 
 test/
 test/widget_test.dart
+lib/firebase_options.dart

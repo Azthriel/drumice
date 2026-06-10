@@ -18,7 +18,6 @@ class HistoriaSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // ── Título ───────────────────────────────────────────────
           Seo.text(
             text: '¿Qué es Drum Ice?',
             style: TextTagStyle.h2,
@@ -31,8 +30,6 @@ class HistoriaSection extends StatelessWidget {
           const SizedBox(height: 12),
           const _Divider(color: AppTheme.pink),
           const SizedBox(height: 56),
-
-          // ── Tres tarjetas ─────────────────────────────────────────
           isMobile
               ? Column(
                   children: _cards(context)
@@ -54,10 +51,7 @@ class HistoriaSection extends StatelessWidget {
                           ))
                       .toList(),
                 ),
-
           const SizedBox(height: 72),
-
-          // ── Historia larga ────────────────────────────────────────
           _HistoriaCard(isMobile: isMobile),
         ],
       ),
@@ -88,10 +82,10 @@ class HistoriaSection extends StatelessWidget {
         emoji: '📦',
         color: Color(0xFFF0FFF4),
         accentColor: Color(0xFF9BDEAC),
-        title: 'Solo retiro',
+        title: 'Retiro y envíos',
         description:
-            'Coordinás el día y horario por WhatsApp, venís a Hurlingham '
-            'y te llevás tu helado fresco y artesanal.',
+            'Coordinás por WhatsApp y elegís: venís a retirar a Hurlingham '
+            'o te lo llevamos a domicilio dentro de la zona.',
       ),
     ];
   }
@@ -119,7 +113,7 @@ class _InfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: accentColor.withValues(alpha:0.4)),
+        border: Border.all(color: accentColor.withValues(alpha: 0.4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +126,7 @@ class _InfoCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
               boxShadow: [
                 BoxShadow(
-                  color: accentColor.withValues(alpha:0.25),
+                  color: accentColor.withValues(alpha: 0.25),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),

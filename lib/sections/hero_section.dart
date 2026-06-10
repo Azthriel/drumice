@@ -67,11 +67,10 @@ class HeroSection extends StatelessWidget {
     final align = isMobile ? TextAlign.center : TextAlign.left;
 
     return [
-      // Chip temático
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         decoration: BoxDecoration(
-          color: AppTheme.lightBlue.withValues(alpha:0.35),
+          color: AppTheme.lightBlue.withValues(alpha: 0.35),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: AppTheme.lightBlue),
         ),
@@ -87,8 +86,6 @@ class HeroSection extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 20),
-
-      // H1 principal
       Seo.text(
         text: 'Drum Ice',
         style: TextTagStyle.h1,
@@ -101,8 +98,6 @@ class HeroSection extends StatelessWidget {
               ),
         ),
       ),
-
-      // H2 subtítulo
       Seo.text(
         text: 'Heladería artesanal',
         style: TextTagStyle.h2,
@@ -117,24 +112,21 @@ class HeroSection extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 24),
-
-      // Descripción
       Seo.text(
-        text: 'El helado que cura todo. 30 sabores artesanales únicos, inspirados en la isla más mágica del mundo. Pedidos por WhatsApp. Retiro en Hurlingham, Buenos Aires.',
+        text:
+            'El helado que cura todo. 30 sabores artesanales únicos, inspirados en la isla más mágica del mundo. Pedidos por WhatsApp. Retiro y envíos a zona Hurlingham, Buenos Aires.',
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),
           child: Text(
             'El helado que cura todo. ✨\n'
             '30 sabores artesanales únicos, inspirados en la isla más mágica del mundo. '
-            'Pedidos por WhatsApp · Retiro en Hurlingham, Buenos Aires.',
+            'Pedidos por WhatsApp · Retiro y envíos a zona Hurlingham, Buenos Aires.',
             textAlign: align,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
       ),
       const SizedBox(height: 44),
-
-      // CTAs
       Wrap(
         alignment: isMobile ? WrapAlignment.center : WrapAlignment.start,
         spacing: 16,
@@ -150,7 +142,8 @@ class HeroSection extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.pink,
                 foregroundColor: AppTheme.darkBrown,
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
                 textStyle: const TextStyle(fontSize: 17),
               ),
             ),
@@ -170,17 +163,14 @@ class HeroSection extends StatelessWidget {
           ),
         ],
       ),
-
       const SizedBox(height: 48),
-
-      // Badge de confianza
       Wrap(
         alignment: isMobile ? WrapAlignment.center : WrapAlignment.start,
         spacing: 24,
         runSpacing: 8,
         children: const [
           _TrustBadge(emoji: '🍦', label: '30 sabores'),
-          _TrustBadge(emoji: '🏡', label: 'Retiro Hurlingham'),
+          _TrustBadge(emoji: '🛵', label: 'Envíos a zona Hurlingham'),
           _TrustBadge(emoji: '💬', label: 'Pedido por WhatsApp'),
         ],
       ),
@@ -224,7 +214,7 @@ class _HeroIllustration extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Seo.image(
-        src: 'assets/images/drum_ice_hero.png', // tu imagen aquí
+        src: 'assets/images/drum_ice_hero.png',
         alt: 'Drum Ice - helados artesanales de Drum Island',
         child: Container(
           width: size,
@@ -237,7 +227,7 @@ class _HeroIllustration extends StatelessWidget {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: AppTheme.pink.withValues(alpha:0.35),
+                color: AppTheme.pink.withValues(alpha: 0.35),
                 blurRadius: 80,
                 spreadRadius: 20,
               ),
