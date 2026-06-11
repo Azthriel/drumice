@@ -1,3 +1,4 @@
+import 'package:drum_ice/utils/analytics_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:seo/seo.dart';
@@ -60,7 +61,19 @@ class _SaboresSectionState extends State<SaboresSection> {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 460),
             child: TextField(
-              onChanged: (v) => setState(() => _query = v),
+              onChanged: (v) {
+                setState(() => _query = v);
+                if (v.trim().length >= 3) {
+                  // evita spam con cada letra
+                  AnalyticsService.logSaborSearch(v);
+                }
+                if (v.trim().isNotEmpty) {
+                  AnalyticsService.logSaborResult(
+                    query: v,
+                    results: _filtered.length,
+                  );
+                }
+              },
               decoration: const InputDecoration(
                 prefixIcon: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -130,7 +143,9 @@ class _SaborChipState extends State<_SaborChip> {
             color: _hover ? AppTheme.softPink : AppTheme.white,
             borderRadius: BorderRadius.circular(40),
             border: Border.all(
-              color: _hover ? AppTheme.pink : AppTheme.pink.withValues(alpha: 0.35),
+              color: _hover
+                  ? AppTheme.pink
+                  : AppTheme.pink.withValues(alpha: 0.35),
               width: _hover ? 1.5 : 1,
             ),
             boxShadow: [

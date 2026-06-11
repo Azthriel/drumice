@@ -1,3 +1,4 @@
+import 'package:drum_ice/utils/analytics_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,13 +10,15 @@ String normalizeArgentinePhone(String raw) {
   return '54$digits';
 }
 
-Future<void> launchWhatsApp(String phone, String message) async {
+Future<void> launchWhatsApp(String phone, String message,
+    {String source = 'unknown'}) async {
   final normalized = normalizeArgentinePhone(phone);
   if (normalized.isEmpty) {
     debugPrint('Número vacío o inválido: $phone');
     return;
   }
-
+  await AnalyticsService.logWhatsAppClick(source: source);
+  
   final uri = Uri.parse(
     'https://wa.me/$normalized?text=${Uri.encodeComponent(message)}',
   );

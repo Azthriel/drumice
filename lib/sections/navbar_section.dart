@@ -200,7 +200,9 @@ class _WhatsAppButton extends StatelessWidget {
       href: _url,
       anchor: 'Hacer pedido por WhatsApp',
       child: ElevatedButton.icon(
-        onPressed: () => launchWhatsApp('+5491154748921', '¡Hola Drum Ice! Vengo de la página y quiero hacer un pedido.'),
+        onPressed: () => launchWhatsApp('+5491154748921',
+            '¡Hola Drum Ice! Vengo de la página y quiero hacer un pedido.',
+            source: 'navbar_whatsapp_button'),
         icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 16),
         label: const Text('Pedir'),
         style: ElevatedButton.styleFrom(

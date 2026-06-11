@@ -30,6 +30,7 @@ dependencies:
       url: https://github.com/quarks-studio/quarks_version_checker
       ref: v1.1.0
   font_awesome_flutter: ^11.0.0
+  firebase_analytics: ^12.4.2
 
 dev_dependencies:
   flutter_test:

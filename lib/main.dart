@@ -10,6 +10,7 @@ import 'package:seo/seo.dart';
 import 'theme/app_theme.dart';
 import 'pages/home_page.dart';
 import 'pages/not_found_page.dart';
+import 'utils/analytics_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +41,7 @@ class DrumIceApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.theme,
         initialRoute: '/',
+        navigatorObservers: [AnalyticsService.observer],
         routes: {
           '/': (_) => const HomePage(),
         },

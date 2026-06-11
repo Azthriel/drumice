@@ -103,7 +103,8 @@ class PedidosSection extends StatelessWidget {
                       'Escribir a Drum Ice por WhatsApp para hacer un pedido de helado',
                   child: ElevatedButton.icon(
                     onPressed: () => launchWhatsApp('+5491154748921',
-                        '¡Hola Drum Ice! Vengo de la página y quiero hacer un pedido.'),
+                        '¡Hola Drum Ice! Vengo de la página y quiero hacer un pedido.',
+                        source: 'pedidos_section'),
                     icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 20),
                     label: const Text('Escribinos por WhatsApp'),
                     style: ElevatedButton.styleFrom(
