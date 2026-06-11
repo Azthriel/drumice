@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quarks_footer/quarks_footer.dart';
 import 'package:seo/seo.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,7 +10,7 @@ class Footer extends StatelessWidget {
   const Footer({super.key});
 
   // TODO: reemplazá con el link real de Instagram cuando lo tengas
-  static const _instagramUrl = 'https://instagram.com/drumice';
+  static const _instagramUrl = 'https://www.instagram.com/gonzaa_trillo/';
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +68,12 @@ class _LogoBlock extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('🍦', style: TextStyle(fontSize: 28)),
-            const SizedBox(width: 8),
+            const FaIcon(
+              FontAwesomeIcons.iceCream,
+              color: AppTheme.pink,
+              size: 22,
+            ),
+            const SizedBox(width: 10),
             Seo.text(
               text: 'Drum Ice',
               child: Text(
@@ -125,28 +130,28 @@ class _LinksBlock extends StatelessWidget {
           isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.end,
       children: [
         const _FooterLink(
-          emoji: '💬',
+          icon: FontAwesomeIcons.whatsapp,
           label: 'WhatsApp',
           url: 'https://wa.me/5491154748921',
           color: AppTheme.whatsappGreen,
         ),
         const SizedBox(height: 10),
         _FooterLink(
-          emoji: '📸',
+          icon: FontAwesomeIcons.instagram,
           label: 'Instagram',
           url: instagramUrl,
           color: const Color(0xFFE1306C),
         ),
         const SizedBox(height: 10),
         const _FooterLink(
-          emoji: '📍',
+          icon: FontAwesomeIcons.locationDot,
           label: 'Hurlingham, Buenos Aires',
           url: 'https://maps.google.com/?q=Hurlingham+Buenos+Aires',
           color: Colors.white54,
         ),
         const SizedBox(height: 10),
         const _FooterLink(
-          emoji: '🏴‍☠️',
+          icon: FontAwesomeIcons.skull,
           label: 'Inspirado en One Piece',
           url: 'https://onepiece.fandom.com/wiki/Drum_Island',
           color: Colors.white38,
@@ -157,13 +162,13 @@ class _LinksBlock extends StatelessWidget {
 }
 
 class _FooterLink extends StatefulWidget {
-  final String emoji;
+  final FaIconData icon;
   final String label;
   final String url;
   final Color color;
 
   const _FooterLink({
-    required this.emoji,
+    required this.icon,
     required this.label,
     required this.url,
     required this.color,
@@ -189,8 +194,13 @@ class _FooterLinkState extends State<_FooterLink> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(widget.emoji, style: const TextStyle(fontSize: 16)),
-              const SizedBox(width: 8),
+              FaIcon(
+                widget.icon,
+                size: 15,
+                color:
+                    _hover ? widget.color : widget.color.withValues(alpha: 0.6),
+              ),
+              const SizedBox(width: 10),
               AnimatedDefaultTextStyle(
                 duration: const Duration(milliseconds: 150),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(

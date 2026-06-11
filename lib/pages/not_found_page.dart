@@ -1,7 +1,6 @@
+import 'package:drum_ice/utils/whatsapp_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:seo/seo.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../theme/app_theme.dart';
 
 class NotFoundPage extends StatelessWidget {
@@ -13,7 +12,8 @@ class NotFoundPage extends StatelessWidget {
 
     return Seo.head(
       tags: const [
-        MetaTag(name: 'title', content: '404 – Página no encontrada | Drum Ice'),
+        MetaTag(
+            name: 'title', content: '404 - Página no encontrada | Drum Ice'),
         MetaTag(name: 'robots', content: 'noindex, follow'),
       ],
       child: Scaffold(
@@ -117,16 +117,14 @@ class NotFoundPage extends StatelessWidget {
                       ),
                     ),
                     OutlinedButton.icon(
-                      onPressed: () => launchUrl(
-                        Uri.parse(
-                          'https://wa.me/5491154748921?text=Hola%20Drum%20Ice!%20Quiero%20hacer%20un%20pedido%20%F0%9F%8D%A6',
-                        ),
-                      ),
+                      onPressed: () => launchWhatsApp('+5491154748921',
+                          '¡Hola Drum Ice! Me perdí buscando una página, pero quiero hacer un pedido.'),
                       icon: const Text('💬', style: TextStyle(fontSize: 18)),
                       label: const Text('Hacer un pedido'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppTheme.darkBrown,
-                        side: const BorderSide(color: AppTheme.pink, width: 1.5),
+                        side:
+                            const BorderSide(color: AppTheme.pink, width: 1.5),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 28,
                           vertical: 17,

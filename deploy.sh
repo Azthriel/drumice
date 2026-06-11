@@ -1,32 +1,52 @@
 #!/bin/bash
-# deploy.sh – Drum Ice · Flutter Web + Firebase Hosting
-# Patrón idéntico al de atumesatodocaserito.com.ar
 set -e
 
-# ── Leer versión desde pubspec.yaml ─────────────────────────────────
-VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}' | cut -d'+' -f1)
-BUILD=$(grep '^version:' pubspec.yaml | awk '{print $2}' | cut -d'+' -f2)
-echo "🍦 Drum Ice v$VERSION+$BUILD"
+cd "$(dirname "$0")"
 
-# ── Escribir version.json para quarks_version_checker ───────────────
-cat > web/version.json << EOF
-{
-  "version": "$VERSION",
-  "build": "$BUILD",
-  "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-}
+echo "==============================="
+echo "  Quarks Studio - Deploy Web"
+echo "==============================="
+
+if [ ! -f pubspec.yaml ]; then
+    echo "ERROR: pubspec.yaml no encontrado."
+    echo "Ejecuta el script desde la raiz del proyecto."
+    exit 1
+fi
+
+# ── Leer version y escribir web/version.json via Python ─────────────────────
+echo "[1/3] Leyendo version y generando web/version.json..."
+
+VER=$(python3 - <<'EOF'
+import re, json
+content = open('pubspec.yaml', 'r', encoding='utf-8').read()
+m = re.search(r'^version:\s*(.+)$', content, re.MULTILINE)
+raw = m.group(1).strip()
+parts = raw.split('+')
+ver = parts[0]
+build = int(parts[1]) if len(parts) > 1 else 0
+print(raw)
+open('web/version.json', 'w', encoding='utf-8').write(
+    json.dumps({'version': ver, 'build_number': build}, indent=2) + '\n'
+)
 EOF
-echo "✅ version.json generado: v$VERSION+$BUILD"
+)
 
-# ── Build Flutter Web ────────────────────────────────────────────────
-echo "🔨 Compilando Flutter Web..."
-flutter build web --release --base-href "/"
+if [ -z "$VER" ]; then
+    echo "ERROR: No se pudo leer la version de pubspec.yaml"
+    exit 1
+fi
 
-echo "✅ Build exitoso en build/web/"
+echo "      OK: web/version.json generado - v$VER"
+echo ""
 
-# ── Deploy Firebase Hosting ──────────────────────────────────────────
-echo "🚀 Desplegando a Firebase..."
+# ── Flutter build web release ────────────────────────────────────────────────
+echo "[2/3] Building Flutter Web release..."
+flutter build web --release
+echo ""
+
+# ── Firebase deploy (solo hosting) ──────────────────────────────────────────
+echo "[3/3] Deploying a Firebase Hosting..."
 firebase deploy --only hosting
 
 echo ""
-echo "✅ ¡Drum Ice desplegado! 🍦"
+echo "[OK] Deploy completado - v$VER"

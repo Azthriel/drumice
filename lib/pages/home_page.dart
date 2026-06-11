@@ -38,7 +38,8 @@ class _HomePageState extends State<HomePage> {
       tags: const [
         MetaTag(
           name: 'title',
-          content: 'Drum Ice 🍦 | Heladería Artesanal – Hurlingham, Buenos Aires',
+          content:
+              'Drum Ice 🍦 | Heladería Artesanal - Hurlingham, Buenos Aires',
         ),
         MetaTag(
           name: 'description',
@@ -48,8 +49,7 @@ class _HomePageState extends State<HomePage> {
         ),
         MetaTag(
           name: 'keywords',
-          content:
-              'helado artesanal, heladería Hurlingham, pedidos WhatsApp, '
+          content: 'helado artesanal, heladería Hurlingham, pedidos WhatsApp, '
               'Drum Island, One Piece, helados Buenos Aires',
         ),
         LinkTag(rel: 'canonical', href: 'https://drumice.com.ar'),

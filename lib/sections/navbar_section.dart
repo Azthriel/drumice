@@ -1,6 +1,7 @@
+import 'package:drum_ice/utils/whatsapp_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:seo/seo.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/app_theme.dart';
 
@@ -23,23 +24,13 @@ class NavbarSection extends StatefulWidget {
 }
 
 class _NavbarSectionState extends State<NavbarSection> {
-  // bool _isScrolled = false;
-
-  // Sticky con sombra al hacer scroll
-  @override
-  void initState() {
-    super.initState();
-    // El CustomScrollView del HomePage maneja el scroll;
-    // este estado se puede conectar si se pasa un ScrollController.
-  }
-
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
 
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.white.withValues(alpha:0.97),
+        color: AppTheme.white.withValues(alpha: 0.97),
         border: const Border(
           bottom: BorderSide(color: Color(0xFFFFE0EF), width: 1),
         ),
@@ -56,8 +47,12 @@ class _NavbarSectionState extends State<NavbarSection> {
             onTap: widget.onHeroTap,
             child: Row(
               children: [
-                const Text('🍦', style: TextStyle(fontSize: 28)),
-                const SizedBox(width: 8),
+                const FaIcon(
+                  FontAwesomeIcons.iceCream,
+                  color: AppTheme.pink,
+                  size: 22,
+                ),
+                const SizedBox(width: 10),
                 Seo.text(
                   text: 'Drum Ice',
                   child: Text(
@@ -81,13 +76,19 @@ class _NavbarSectionState extends State<NavbarSection> {
             _NavLink(label: 'Sabores', onTap: widget.onSaboresTop),
             _NavLink(label: 'Pedidos', onTap: widget.onPedidosTap),
             const SizedBox(width: 12),
-            _WhatsAppButton(),
+            const _WhatsAppButton(),
           ] else ...[
             // ── Menú hamburguesa ──────────────────────────────────
             PopupMenuButton<_NavOption>(
-              icon: const Icon(Icons.menu_rounded, color: AppTheme.darkBrown, size: 28),
+              icon: const FaIcon(
+                FontAwesomeIcons.bars,
+                color: AppTheme.darkBrown,
+                size: 22,
+              ),
               color: AppTheme.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               onSelected: (opt) {
                 switch (opt) {
                   case _NavOption.inicio:
@@ -101,10 +102,26 @@ class _NavbarSectionState extends State<NavbarSection> {
                 }
               },
               itemBuilder: (_) => [
-                _menuItem(_NavOption.inicio, '🏠', 'Inicio'),
-                _menuItem(_NavOption.historia, '📖', 'Historia'),
-                _menuItem(_NavOption.sabores, '🍦', 'Sabores'),
-                _menuItem(_NavOption.pedidos, '💬', 'Pedidos'),
+                _menuItem(
+                  _NavOption.inicio,
+                  FontAwesomeIcons.house,
+                  'Inicio',
+                ),
+                _menuItem(
+                  _NavOption.historia,
+                  FontAwesomeIcons.bookOpen,
+                  'Historia',
+                ),
+                _menuItem(
+                  _NavOption.sabores,
+                  FontAwesomeIcons.iceCream,
+                  'Sabores',
+                ),
+                _menuItem(
+                  _NavOption.pedidos,
+                  FontAwesomeIcons.whatsapp,
+                  'Pedidos',
+                ),
               ],
             ),
           ],
@@ -113,12 +130,16 @@ class _NavbarSectionState extends State<NavbarSection> {
     );
   }
 
-  PopupMenuItem<_NavOption> _menuItem(_NavOption opt, String emoji, String label) {
+  PopupMenuItem<_NavOption> _menuItem(
+    _NavOption opt,
+    FaIconData icon,
+    String label,
+  ) {
     return PopupMenuItem(
       value: opt,
       child: Row(
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 18)),
+          FaIcon(icon, size: 16, color: AppTheme.mediumBrown),
           const SizedBox(width: 12),
           Text(label, style: Theme.of(context).textTheme.bodyLarge),
         ],
@@ -171,14 +192,16 @@ class _NavLinkState extends State<_NavLink> {
 class _WhatsAppButton extends StatelessWidget {
   static const _url = 'https://wa.me/5491154748921';
 
+  const _WhatsAppButton();
+
   @override
   Widget build(BuildContext context) {
     return Seo.link(
       href: _url,
       anchor: 'Hacer pedido por WhatsApp',
       child: ElevatedButton.icon(
-        onPressed: () => launchUrl(Uri.parse(_url)),
-        icon: const Text('💬', style: TextStyle(fontSize: 16)),
+        onPressed: () => launchWhatsApp('+5491154748921', '¡Hola Drum Ice! Vengo de la página y quiero hacer un pedido.'),
+        icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 16),
         label: const Text('Pedir'),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.pink,

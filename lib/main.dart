@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quarks_version_checker/quarks_version_checker.dart';
 import 'package:seo/seo.dart';
 import 'theme/app_theme.dart';
@@ -17,7 +18,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-    try {
+  await GoogleFonts.pendingFonts([
+    GoogleFonts.breeSerif(),
+  ]);
+  try {
     await AppVersionChecker.instance.start();
   } catch (_) {}
   runApp(const DrumIceApp());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:seo/seo.dart';
 
 import '../data/sabores.dart';
@@ -61,7 +62,18 @@ class _SaboresSectionState extends State<SaboresSection> {
             child: TextField(
               onChanged: (v) => setState(() => _query = v),
               decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.search_rounded, color: AppTheme.lightBrown),
+                prefixIcon: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: FaIcon(
+                    FontAwesomeIcons.magnifyingGlass,
+                    size: 16,
+                    color: AppTheme.lightBrown,
+                  ),
+                ),
+                prefixIconConstraints: BoxConstraints(
+                  minWidth: 48,
+                  minHeight: 48,
+                ),
                 hintText: 'Buscá tu sabor favorito...',
               ),
             ),
@@ -113,17 +125,17 @@ class _SaborChipState extends State<_SaborChip> {
         text: widget.sabor.nombre,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           decoration: BoxDecoration(
             color: _hover ? AppTheme.softPink : AppTheme.white,
             borderRadius: BorderRadius.circular(40),
             border: Border.all(
-              color: _hover ? AppTheme.pink : AppTheme.pink.withValues(alpha:0.35),
+              color: _hover ? AppTheme.pink : AppTheme.pink.withValues(alpha: 0.35),
               width: _hover ? 1.5 : 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: AppTheme.pink.withValues(alpha:_hover ? 0.18 : 0.06),
+                color: AppTheme.pink.withValues(alpha: _hover ? 0.18 : 0.06),
                 blurRadius: _hover ? 12 : 6,
                 offset: const Offset(0, 3),
               ),
@@ -132,7 +144,13 @@ class _SaborChipState extends State<_SaborChip> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(widget.sabor.emoji, style: const TextStyle(fontSize: 18)),
+              FaIcon(
+                FontAwesomeIcons.iceCream,
+                size: 13,
+                color: _hover
+                    ? AppTheme.darkBrown
+                    : AppTheme.pink.withValues(alpha: 0.7),
+              ),
               const SizedBox(width: 8),
               Text(
                 widget.sabor.nombre,
@@ -157,8 +175,12 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text('😅', style: TextStyle(fontSize: 48)),
-        const SizedBox(height: 12),
+        const FaIcon(
+          FontAwesomeIcons.faceSadTear,
+          size: 48,
+          color: AppTheme.lightBrown,
+        ),
+        const SizedBox(height: 16),
         Seo.text(
           text: 'No encontramos "$query" entre nuestros sabores.',
           child: Text(
@@ -169,7 +191,7 @@ class _EmptyState extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          '¡Pero podés sugerirlo por WhatsApp! 💬',
+          '¡Pero podés sugerirlo por WhatsApp!',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium,
         ),

@@ -1,14 +1,12 @@
+import 'package:drum_ice/utils/whatsapp_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:seo/seo.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/app_theme.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
-
-  static const _waUrl =
-      'https://wa.me/5491154748921?text=Hola%20Drum%20Ice!%20Quiero%20hacer%20un%20pedido%20%F0%9F%8D%A6';
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +74,23 @@ class HeroSection extends StatelessWidget {
         ),
         child: Seo.text(
           text: 'Inspirado en Drum Island · One Piece',
-          child: Text(
-            '🏔️ Inspirado en Drum Island · One Piece',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppTheme.darkBrown,
-                  fontWeight: FontWeight.w600,
-                ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const FaIcon(
+                FontAwesomeIcons.mountain,
+                size: 12,
+                color: AppTheme.darkBrown,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Inspirado en Drum Island · One Piece',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppTheme.darkBrown,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ],
           ),
         ),
       ),
@@ -114,12 +123,12 @@ class HeroSection extends StatelessWidget {
       const SizedBox(height: 24),
       Seo.text(
         text:
-            'El helado que cura todo. 30 sabores artesanales únicos, inspirados en la isla más mágica del mundo. Pedidos por WhatsApp. Retiro y envíos a zona Hurlingham, Buenos Aires.',
+            'El helado que cura todo. 30 sabores artesanales únicos, inspirados en la magia de la ficción. Pedidos por WhatsApp. Retiro y envíos a zona Hurlingham, Buenos Aires.',
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),
           child: Text(
             'El helado que cura todo. ✨\n'
-            '30 sabores artesanales únicos, inspirados en la isla más mágica del mundo. '
+            '30 sabores artesanales únicos, inspirados en la magia de la ficción. '
             'Pedidos por WhatsApp · Retiro y envíos a zona Hurlingham, Buenos Aires.',
             textAlign: align,
             style: Theme.of(context).textTheme.bodyLarge,
@@ -136,8 +145,8 @@ class HeroSection extends StatelessWidget {
             href: 'https://wa.me/5491154748921',
             anchor: 'Hacer pedido por WhatsApp a Drum Ice',
             child: ElevatedButton.icon(
-              onPressed: () => launchUrl(Uri.parse(_waUrl)),
-              icon: const Text('💬', style: TextStyle(fontSize: 20)),
+              onPressed: () => launchWhatsApp('+5491154748921', '¡Hola Drum Ice! Vengo de la página y quiero hacer un pedido.'),
+              icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 18),
               label: const Text('Hacer pedido'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.pink,
@@ -148,17 +157,15 @@ class HeroSection extends StatelessWidget {
               ),
             ),
           ),
-          OutlinedButton(
+          OutlinedButton.icon(
             onPressed: () {},
+            icon: const FaIcon(FontAwesomeIcons.iceCream, size: 15),
+            label: const Text('Ver sabores'),
             style: OutlinedButton.styleFrom(
               foregroundColor: AppTheme.darkBrown,
               side: const BorderSide(color: AppTheme.pink, width: 1.5),
               padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 17),
               shape: const StadiumBorder(),
-            ),
-            child: Text(
-              'Ver sabores',
-              style: Theme.of(context).textTheme.labelLarge,
             ),
           ),
         ],
@@ -169,9 +176,18 @@ class HeroSection extends StatelessWidget {
         spacing: 24,
         runSpacing: 8,
         children: const [
-          _TrustBadge(emoji: '🍦', label: '30 sabores'),
-          _TrustBadge(emoji: '🛵', label: 'Envíos a zona Hurlingham'),
-          _TrustBadge(emoji: '💬', label: 'Pedido por WhatsApp'),
+          _TrustBadge(
+            icon: FontAwesomeIcons.iceCream,
+            label: '30 sabores',
+          ),
+          _TrustBadge(
+            icon: FontAwesomeIcons.motorcycle,
+            label: 'Envíos a zona Hurlingham',
+          ),
+          _TrustBadge(
+            icon: FontAwesomeIcons.whatsapp,
+            label: 'Pedido por WhatsApp',
+          ),
         ],
       ),
     ];
@@ -179,10 +195,10 @@ class HeroSection extends StatelessWidget {
 }
 
 class _TrustBadge extends StatelessWidget {
-  final String emoji;
+  final FaIconData icon;
   final String label;
 
-  const _TrustBadge({required this.emoji, required this.label});
+  const _TrustBadge({required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -191,8 +207,8 @@ class _TrustBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 16)),
-          const SizedBox(width: 6),
+          FaIcon(icon, size: 14, color: AppTheme.pink),
+          const SizedBox(width: 7),
           Text(
             label,
             style: Theme.of(context)
@@ -214,7 +230,7 @@ class _HeroIllustration extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Seo.image(
-        src: 'assets/images/drum_ice_hero.png',
+        src: 'assets/images/hero.png',
         alt: 'Drum Ice - helados artesanales de Drum Island',
         child: Container(
           width: size,
@@ -234,9 +250,11 @@ class _HeroIllustration extends StatelessWidget {
             ],
           ),
           child: Center(
-            child: Text(
-              '🍦',
-              style: TextStyle(fontSize: size * 0.45),
+            child: Image.asset(
+              'assets/images/hero.png',
+              width: size,
+              height: size,
+              fit: BoxFit.contain,
             ),
           ),
         ),
