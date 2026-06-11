@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://drumice.com.ar/sitemap.xml
