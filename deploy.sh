@@ -41,7 +41,8 @@ echo ""
 
 # ── Flutter build web release ────────────────────────────────────────────────
 echo "[2/3] Building Flutter Web release..."
-flutter build web --release
+flutter clean
+flutter build web --release --no-tree-shake-icons
 echo ""
 
 # ── Firebase deploy (solo hosting) ──────────────────────────────────────────

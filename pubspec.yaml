@@ -1,7 +1,7 @@
 name: drum_ice
 description: Drum Ice - Heladería artesanal. Inspirada en Drum Island de One Piece.
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.7+8
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -39,10 +39,10 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.4
 
 flutter_launcher_icons:
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/hero.png"
   web:
     generate: true
-    image_path: "assets/images/logo.png"
+    image_path: "assets/images/hero.png"
     background_color: "#FFFFFF"
     theme_color: "#FFAECF"
 

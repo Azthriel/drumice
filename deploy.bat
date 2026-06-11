@@ -47,7 +47,8 @@ echo.
 
 :: ── Flutter build web release ────────────────────────────────────────────────
 echo [2/3] Building Flutter Web release...
-call flutter build web --release
+call flutter clean
+call flutter build web --release --no-tree-shake-icons
 if errorlevel 1 (
     echo ERROR: flutter build fallo.
     pause & exit /b 1
