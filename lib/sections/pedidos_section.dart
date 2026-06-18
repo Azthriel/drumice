@@ -8,7 +8,7 @@ import '../theme/app_theme.dart';
 class PedidosSection extends StatelessWidget {
   const PedidosSection({super.key});
 
-  static const _waUrl = 'https://wa.me/5491154748921';
+  static const _waUrl = 'https://wa.me/5491176025184';
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +89,9 @@ class PedidosSection extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Seo.text(
-                  text: '+54 9 11 5474-8921 · Retiro o envío a zona Hurlingham',
+                  text: '+54 9 11 7602-5184 · Retiro o envío a zona Hurlingham',
                   child: Text(
-                    '+54 9 11 5474-8921  ·  Retiro o envío a zona Hurlingham',
+                    '+54 9 11 7602-5184  ·  Retiro o envío a zona Hurlingham',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -102,7 +102,7 @@ class PedidosSection extends StatelessWidget {
                   anchor:
                       'Escribir a Drum Ice por WhatsApp para hacer un pedido de helado',
                   child: ElevatedButton.icon(
-                    onPressed: () => launchWhatsApp('+5491154748921',
+                    onPressed: () => launchWhatsApp('+5491176025184',
                         '¡Hola Drum Ice! Vengo de la página y quiero hacer un pedido.',
                         source: 'pedidos_section'),
                     icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 20),
@@ -144,7 +144,7 @@ class PedidosSection extends StatelessWidget {
         icon: FontAwesomeIcons.whatsapp,
         title: 'Escribinos por WhatsApp',
         description:
-            'Mandanos un mensaje al +54 9 11 5474-8921 con tu pedido y acordamos el retiro o envío.',
+            'Mandanos un mensaje al +54 9 11 7602-5184 con tu pedido y acordamos el retiro o envío.',
       ),
       const _StepCard(
         number: '3',

@@ -9,8 +9,7 @@ import '../theme/app_theme.dart';
 class Footer extends StatelessWidget {
   const Footer({super.key});
 
-  // TODO: reemplazá con el link real de Instagram cuando lo tengas
-  static const _instagramUrl = 'https://www.instagram.com/gonzaa_trillo/';
+  static const _instagramUrl = 'https://www.instagram.com/drum.ice_/';
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +99,7 @@ class _LogoBlock extends StatelessWidget {
         const SizedBox(height: 20),
         Seo.text(
           text:
-              'Pedidos por WhatsApp al +54 9 11 5474-8921. Retiro y envíos a zona Hurlingham.',
+              'Pedidos por WhatsApp al +54 9 11 7602-5184. Retiro y envíos a zona Hurlingham.',
           child: Text(
             'Pedidos por WhatsApp · Retiro y envíos a zona Hurlingham',
             textAlign: isMobile ? TextAlign.center : TextAlign.left,
@@ -132,7 +131,7 @@ class _LinksBlock extends StatelessWidget {
         const _FooterLink(
           icon: FontAwesomeIcons.whatsapp,
           label: 'WhatsApp',
-          url: 'https://wa.me/5491154748921',
+          url: 'https://wa.me/5491176025184',
           color: AppTheme.whatsappGreen,
         ),
         const SizedBox(height: 10),

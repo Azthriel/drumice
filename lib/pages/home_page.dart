@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
           name: 'description',
           content:
               'Drum Ice: 30 sabores artesanales inspirados en Drum Island de One Piece. '
-              'Pedidos por WhatsApp al +54 9 11 5474-8921. Retiro en Hurlingham, Buenos Aires.',
+              'Pedidos por WhatsApp al +54 9 11 7602-5184. Retiro en Hurlingham, Buenos Aires.',
         ),
         MetaTag(
           name: 'keywords',

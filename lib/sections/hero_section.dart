@@ -142,10 +142,10 @@ class HeroSection extends StatelessWidget {
         runSpacing: 12,
         children: [
           Seo.link(
-            href: 'https://wa.me/5491154748921',
+            href: 'https://wa.me/5491176025184',
             anchor: 'Hacer pedido por WhatsApp a Drum Ice',
             child: ElevatedButton.icon(
-              onPressed: () => launchWhatsApp('+5491154748921',
+              onPressed: () => launchWhatsApp('+5491176025184',
                   '¡Hola Drum Ice! Vengo de la página y quiero hacer un pedido.',
                   source: 'hero_section'),
               icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 18),

@@ -190,7 +190,7 @@ class _NavLinkState extends State<_NavLink> {
 }
 
 class _WhatsAppButton extends StatelessWidget {
-  static const _url = 'https://wa.me/5491154748921';
+  static const _url = 'https://wa.me/5491176025184';
 
   const _WhatsAppButton();
 
@@ -200,7 +200,7 @@ class _WhatsAppButton extends StatelessWidget {
       href: _url,
       anchor: 'Hacer pedido por WhatsApp',
       child: ElevatedButton.icon(
-        onPressed: () => launchWhatsApp('+5491154748921',
+        onPressed: () => launchWhatsApp('+5491176025184',
             '¡Hola Drum Ice! Vengo de la página y quiero hacer un pedido.',
             source: 'navbar_whatsapp_button'),
         icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 16),
