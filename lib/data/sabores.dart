@@ -26,7 +26,7 @@ const List<Sabor> sabores = [
   Sabor(nombre: 'Dulce de Leche con Bombones', emoji: '🍬'),
   Sabor(nombre: 'Tiramisú', emoji: '☕'),
   Sabor(nombre: 'Cereza', emoji: '🍒'),
-  Sabor(nombre: 'Choco Nutella', emoji: '🫓'),
+  Sabor(nombre: 'Crema oreo', emoji: '🍪'),
   Sabor(nombre: 'Super Dulce de Leche', emoji: '🧉'),
   Sabor(nombre: 'Choco Ferrero', emoji: '🎁'),
   Sabor(nombre: 'Frutos Rojos', emoji: '🔴'),
