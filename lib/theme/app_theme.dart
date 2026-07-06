@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   AppTheme._();
+  static const String fontFamily = 'BreeSerif';
 
   // ── Paleta ──────────────────────────────────────────────────────────
   static const Color pink = Color(0xFFFFAECF);
@@ -18,68 +18,68 @@ class AppTheme {
 
   static const Color whatsappGreen = Color(0xFF25D366);
 
-  // ── TextTheme con Bree Serif ─────────────────────────────────────────
-  static TextTheme get _textTheme {
-    return GoogleFonts.breeSerifTextTheme(
-      const TextTheme(
-        displayLarge: TextStyle(
-          fontSize: 64,
-          fontWeight: FontWeight.w400, // Bree Serif es inherentemente bold
-          color: darkBrown,
-          height: 1.05,
-          letterSpacing: -1,
-        ),
-        displayMedium: TextStyle(
-          fontSize: 48,
-          fontWeight: FontWeight.w400,
-          color: darkBrown,
-          height: 1.1,
-        ),
-        headlineLarge: TextStyle(
-          fontSize: 36,
-          fontWeight: FontWeight.w400,
-          color: darkBrown,
-          height: 1.2,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.w400,
-          color: darkBrown,
-          height: 1.3,
-        ),
-        headlineSmall: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w400,
-          color: darkBrown,
-        ),
-        bodyLarge: TextStyle(
-          fontSize: 18,
-          color: mediumBrown,
-          height: 1.7,
-        ),
-        bodyMedium: TextStyle(
-          fontSize: 16,
-          color: mediumBrown,
-          height: 1.6,
-        ),
-        bodySmall: TextStyle(
-          fontSize: 13,
-          color: lightBrown,
-          height: 1.5,
-        ),
-        labelLarge: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: darkBrown,
-          letterSpacing: 0.5,
-        ),
-      ),
-    );
-  }
+  // ── TextTheme con Bree Serif (local) ─────────────────────────────────
+  static const TextTheme _baseTextTheme = TextTheme(
+    displayLarge: TextStyle(
+      fontSize: 64,
+      fontWeight: FontWeight.w400,
+      color: darkBrown,
+      height: 1.05,
+      letterSpacing: -1,
+    ),
+    displayMedium: TextStyle(
+      fontSize: 48,
+      fontWeight: FontWeight.w400,
+      color: darkBrown,
+      height: 1.1,
+    ),
+    headlineLarge: TextStyle(
+      fontSize: 36,
+      fontWeight: FontWeight.w400,
+      color: darkBrown,
+      height: 1.2,
+    ),
+    headlineMedium: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
+      color: darkBrown,
+      height: 1.3,
+    ),
+    headlineSmall: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w400,
+      color: darkBrown,
+    ),
+    bodyLarge: TextStyle(
+      fontSize: 18,
+      color: mediumBrown,
+      height: 1.7,
+    ),
+    bodyMedium: TextStyle(
+      fontSize: 16,
+      color: mediumBrown,
+      height: 1.6,
+    ),
+    bodySmall: TextStyle(
+      fontSize: 13,
+      color: lightBrown,
+      height: 1.5,
+    ),
+    labelLarge: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: darkBrown,
+      letterSpacing: 0.5,
+    ),
+  );
+
+  static TextTheme get _textTheme =>
+      _baseTextTheme.apply(fontFamily: fontFamily);
 
   static ThemeData get theme {
     return ThemeData(
       useMaterial3: true,
+      fontFamily: fontFamily,
       scaffoldBackgroundColor: white,
       colorScheme: const ColorScheme.light(
         primary: pink,
@@ -97,7 +97,8 @@ class AppTheme {
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
           shape: const StadiumBorder(),
-          textStyle: GoogleFonts.breeSerif(
+          textStyle: const TextStyle(
+            fontFamily: fontFamily,
             fontSize: 17,
             fontWeight: FontWeight.w400,
           ),

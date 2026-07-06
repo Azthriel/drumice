@@ -1,6 +1,6 @@
+import 'package:drum_ice/widgets/quarks_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:quarks_footer/quarks_footer.dart';
 import 'package:seo/seo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
