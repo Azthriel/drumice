@@ -43,7 +43,6 @@ class QuarksFooter extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/isotipo.png',
-                package: 'quarks_footer',
                 height: 26,
                 errorBuilder: (context, error, stackTrace) =>
                     Icon(Icons.science, size: 26, color: textColor),
