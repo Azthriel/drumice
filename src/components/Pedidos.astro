@@ -1,0 +1,220 @@
+---
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+import { PHONE, waLink } from '../lib/site';
+
+interface Props {
+  totalSabores: number;
+}
+const { totalSabores } = Astro.props;
+
+const steps: { n: number; icon: IconName; title: string; text: string }[] = [
+  {
+    n: 1,
+    icon: 'listCheck',
+    title: 'Elegí tus sabores',
+    text: `Revisá nuestros ${totalSabores} sabores y armá tu combinación favorita.`,
+  },
+  {
+    n: 2,
+    icon: 'whatsapp',
+    title: 'Escribinos por WhatsApp',
+    text: `Mandanos un mensaje al ${PHONE.display} con tu pedido y acordamos el retiro o envío.`,
+  },
+  {
+    n: 3,
+    icon: 'house',
+    title: 'Retirá o recibilo en casa',
+    text: 'Podés venir a buscar tu pedido a Hurlingham o te lo llevamos a domicilio dentro de la zona.',
+  },
+];
+
+const badges: { icon: IconName; title: string; text: string; bg: string; accent: string }[] = [
+  {
+    icon: 'house',
+    title: 'Retiro en Hurlingham',
+    text: 'Venís y te llevás tu helado',
+    bg: 'var(--pale-pink)',
+    accent: '255 174 207',
+  },
+  {
+    icon: 'motorcycle',
+    title: 'Envío a zona Hurlingham',
+    text: 'Lo coordinamos por WhatsApp',
+    bg: 'var(--pale-blue)',
+    accent: '174 223 247',
+  },
+];
+---
+
+<section id="pedidos" class="section pedidos">
+  <div class="section-head">
+    <h2 class="headline-large">¿Cómo hacer un pedido?</h2>
+    <div class="accent-bar"></div>
+  </div>
+
+  <ol class="cards-3 steps" role="list">
+    {
+      steps.map((s) => (
+        <li class="step">
+          <div class="step-top">
+            <span class="step-n">{s.n}</span>
+            <span class="step-icon">
+              <Icon name={s.icon} size={18} />
+            </span>
+          </div>
+          <h3 class="headline-small">{s.title}</h3>
+          <p class="body-medium">{s.text}</p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="badges">
+    {
+      badges.map((b) => (
+        <div class="badge" style={`--bg:${b.bg};--accent:${b.accent}`}>
+          <span class="badge-icon">
+            <Icon name={b.icon} size={22} />
+          </span>
+          <div>
+            <p class="headline-small">{b.title}</p>
+            <p class="body-medium badge-text">{b.text}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="cta">
+    <h3 class="headline-medium">¡Pedí ahora por WhatsApp!</h3>
+    <p class="body-large">
+      <a href={`tel:${PHONE.e164}`} class="phone">{PHONE.display}</a>&nbsp;·&nbsp; Retiro o envío a zona Hurlingham
+    </p>
+    <a
+      href={waLink()}
+      target="_blank"
+      rel="noopener"
+      class="btn btn-whatsapp"
+      data-wa-source="pedidos_section"
+    >
+      <Icon name="whatsapp" size={20} />
+      Escribinos por WhatsApp
+    </a>
+  </div>
+</section>
+
+<style>
+  .pedidos {
+    background: var(--white);
+  }
+  .steps {
+    list-style: none;
+    margin: 56px 0 0;
+    padding: 0;
+  }
+  .step {
+    padding: 28px;
+    border-radius: 22px;
+    background: var(--pale-pink);
+    border: 1px solid rgb(255 174 207 / 0.25);
+  }
+  .step-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .step-n {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--pink);
+    color: var(--dark-brown);
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .step-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--pink);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 2px 8px rgb(255 174 207 / 0.15);
+  }
+  .step h3 {
+    margin-top: 16px;
+  }
+  .step p {
+    margin-top: 8px;
+  }
+
+  .badges {
+    margin-top: 72px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .badge {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    border-radius: 18px;
+    background: var(--bg);
+    border: 1px solid rgb(var(--accent) / 0.4);
+  }
+  .badge-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--white);
+    color: rgb(var(--accent));
+    display: grid;
+    place-items: center;
+    box-shadow: 0 3px 10px rgb(var(--accent) / 0.2);
+  }
+  .badge-text {
+    margin-top: 4px;
+  }
+
+  .cta {
+    margin-top: 48px;
+    padding: 52px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--soft-pink), var(--pale-blue));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .cta .body-large {
+    margin-top: 12px;
+  }
+  .phone {
+    white-space: nowrap;
+  }
+  .phone:hover {
+    color: var(--dark-brown);
+  }
+  .cta .btn {
+    margin-top: 36px;
+  }
+
+  @media (max-width: 767px) {
+    .badges {
+      grid-template-columns: 1fr;
+    }
+    .cta {
+      padding: 28px 20px;
+    }
+    .cta .btn {
+      padding: 16px 22px;
+      font-size: 16px;
+    }
+  }
+</style>

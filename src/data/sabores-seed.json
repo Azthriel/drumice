@@ -1,0 +1,182 @@
+[
+  {
+    "nombre": "Vainilla",
+    "orden": 1,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Americana",
+    "orden": 2,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Crema de Skypiea",
+    "orden": 3,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Dulce de Leche",
+    "orden": 4,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Chocolate",
+    "orden": 5,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Frutilla al Agua",
+    "orden": 6,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Limón al Agua",
+    "orden": 7,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Frutilla Especial",
+    "orden": 8,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Tramontana",
+    "orden": 9,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Sambayón",
+    "orden": 10,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Granizado Room",
+    "orden": 11,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Menta Granizada",
+    "orden": 12,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Dulce de Leche Granizado",
+    "orden": 13,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Chocolate con Almendras",
+    "orden": 14,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Flan Especial",
+    "orden": 15,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Banana Split",
+    "orden": 16,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Mascarpone con Frutos Rojos",
+    "orden": 17,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Dulce de Leche explosivo",
+    "orden": 18,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Tiramisú",
+    "orden": 19,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Cereza",
+    "orden": 20,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Crema oreo",
+    "orden": 21,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Dulce de Leche Conquistador",
+    "orden": 22,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Choco Ferrero",
+    "orden": 23,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Chocolate amargo",
+    "orden": 24,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Mantecol",
+    "orden": 25,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Chocotorta",
+    "orden": 26,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Cadbury",
+    "orden": 27,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Franui",
+    "orden": 28,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Dubai",
+    "orden": 29,
+    "agotado": false,
+    "nuevo": false
+  },
+  {
+    "nombre": "Mango Maracuyá",
+    "orden": 30,
+    "agotado": false,
+    "nuevo": false
+  }
+]

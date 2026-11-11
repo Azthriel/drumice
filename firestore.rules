@@ -1,0 +1,52 @@
+rules_version = '2';
+
+// Lectura pública de sabores y promos (la usa el build de Astro por REST).
+// Escritura solo para la cuenta admin de Drum Ice.
+// IMPORTANTE: crear el usuario drumice26@gmail.com en Authentication ANTES de desplegar
+// estas reglas, así nadie más puede registrarse con ese email.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'drumice26@gmail.com'
+        && request.auth.token.firebase.sign_in_provider == 'password';
+    }
+
+    function validSabor(d) {
+      return d.keys().hasOnly(['nombre', 'orden', 'agotado', 'nuevo', 'actualizado'])
+        && d.nombre is string && d.nombre.size() > 0 && d.nombre.size() <= 60
+        && d.orden is number
+        && d.agotado is bool
+        && d.nuevo is bool;
+    }
+
+    function validPromo(d) {
+      return d.keys().hasOnly(['titulo', 'url', 'path', 'ancho', 'alto', 'orden', 'activa', 'creada'])
+        && d.titulo is string && d.titulo.size() > 0 && d.titulo.size() <= 120
+        && d.url is string && d.url.matches('https://firebasestorage\\.googleapis\\.com/.*')
+        && d.path is string && d.path.matches('promos/.*')
+        && d.ancho is int && d.alto is int
+        && d.orden is number
+        && d.activa is bool;
+    }
+
+    match /sabores/{id} {
+      allow read: if true;
+      allow create, update: if isAdmin() && validSabor(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /promos/{id} {
+      allow read: if true;
+      allow create, update: if isAdmin() && validPromo(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // Estado del panel (cambios pendientes de publicar, última publicación).
+    match /meta/{id} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

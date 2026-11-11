@@ -1,0 +1,250 @@
+---
+import Icon from './Icon.astro';
+import { waLink } from '../lib/site';
+import type { Sabor } from '../lib/data';
+
+interface Props {
+  sabores: Sabor[];
+}
+const { sabores } = Astro.props;
+---
+
+<section id="sabores" class="section sabores">
+  <div class="section-head">
+    <h2 class="headline-large">Nuestros Sabores</h2>
+    <p class="body-large sub">{sabores.length} sabores artesanales únicos para elegir</p>
+    <div class="accent-bar blue"></div>
+  </div>
+
+  <div class="search">
+    <label for="buscar-sabor" class="visually-hidden">Buscar sabor</label>
+    <Icon name="magnifyingGlass" size={16} class="search-icon" />
+    <input
+      id="buscar-sabor"
+      type="search"
+      placeholder="Buscá tu sabor favorito..."
+      autocomplete="off"
+      enterkeyhint="search"
+    />
+  </div>
+
+  <ul class="chips" role="list">
+    {
+      sabores.map((s) => (
+        <li
+          class:list={['chip', { agotado: s.agotado }]}
+          data-nombre={s.nombre
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[̀-ͯ]/g, '')}
+        >
+          <Icon name="iceCream" size={13} class="chip-icon" />
+          <span class="chip-name">{s.nombre}</span>
+          {s.nuevo && !s.agotado && <span class="tag tag-nuevo">Nuevo</span>}
+          {s.agotado && <span class="tag tag-agotado">Agotado</span>}
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="empty" hidden>
+    <Icon name="faceSadTear" size={48} class="empty-icon" />
+    <p class="body-large">No encontramos "<span class="empty-q"></span>" entre nuestros sabores.</p>
+    <p class="body-medium">
+      ¡Pero podés
+      <a
+        class="suggest"
+        href={waLink('¡Hola Drum Ice! Quiero sugerir un sabor:')}
+        target="_blank"
+        rel="noopener"
+        data-wa-source="sabores_sugerencia">sugerirlo por WhatsApp</a
+      >!
+    </p>
+  </div>
+</section>
+
+<style>
+  .sabores {
+    background: var(--lavender);
+  }
+  .sub {
+    margin-top: 8px;
+  }
+
+  .search {
+    position: relative;
+    max-width: 460px;
+    margin: 44px auto 0;
+  }
+  .search :global(.search-icon) {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--light-brown);
+    pointer-events: none;
+  }
+  .search input {
+    width: 100%;
+    padding: 16px 24px 16px 52px;
+    border-radius: 32px;
+    border: 1.5px solid var(--light-blue);
+    background: var(--white);
+    font-size: 16px;
+    color: var(--dark-brown);
+    outline: none;
+    transition: border-width 0.1s;
+  }
+  .search input::placeholder {
+    color: var(--light-brown);
+  }
+  .search input:focus {
+    border: 2px solid var(--light-blue);
+    padding-left: 51.5px;
+  }
+  .search input::-webkit-search-cancel-button {
+    cursor: pointer;
+  }
+
+  .chips {
+    list-style: none;
+    margin: 48px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 40px;
+    background: var(--white);
+    border: 1px solid rgb(255 174 207 / 0.35);
+    box-shadow: 0 3px 6px rgb(255 174 207 / 0.06);
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 600;
+    color: var(--dark-brown);
+    transition:
+      background-color 0.15s,
+      border-color 0.15s,
+      box-shadow 0.15s;
+  }
+  .chip :global(.chip-icon) {
+    color: rgb(255 174 207 / 0.7);
+    transition: color 0.15s;
+  }
+  .chip:hover {
+    background: var(--soft-pink);
+    border-color: var(--pink);
+    box-shadow:
+      0 0 0 0.5px var(--pink),
+      0 3px 12px rgb(255 174 207 / 0.18);
+  }
+  .chip:hover :global(.chip-icon) {
+    color: var(--dark-brown);
+  }
+  .chip[hidden] {
+    display: none;
+  }
+
+  .tag {
+    font-size: 11px;
+    line-height: 1;
+    padding: 5px 9px;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .tag-nuevo {
+    background: var(--light-blue);
+    color: var(--dark-brown);
+  }
+  .tag-agotado {
+    background: #efe7e4;
+    color: var(--medium-brown);
+  }
+  .chip.agotado {
+    background: #fbf9f9;
+    border-style: dashed;
+    border-color: rgb(184 152 144 / 0.5);
+    box-shadow: none;
+  }
+  .chip.agotado .chip-name {
+    color: var(--light-brown);
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+  }
+  .chip.agotado :global(.chip-icon) {
+    color: rgb(184 152 144 / 0.5);
+  }
+
+  .empty {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .empty[hidden] {
+    display: none;
+  }
+  .empty :global(.empty-icon) {
+    color: var(--light-brown);
+    margin-bottom: 16px;
+  }
+  .empty .body-medium {
+    margin-top: 8px;
+  }
+  .suggest {
+    text-decoration: underline;
+    text-decoration-color: var(--pink);
+    text-underline-offset: 3px;
+  }
+</style>
+
+<script>
+  import { logSaborSearch, logSaborResult } from '../scripts/analytics';
+
+  const root = document.querySelector<HTMLElement>('#sabores');
+  if (root) {
+    const input = root.querySelector<HTMLInputElement>('#buscar-sabor')!;
+    const chips = [...root.querySelectorAll<HTMLElement>('.chip')];
+    const chipList = root.querySelector<HTMLElement>('.chips')!;
+    const empty = root.querySelector<HTMLElement>('.empty')!;
+    const emptyQ = root.querySelector<HTMLElement>('.empty-q')!;
+
+    const norm = (v: string) =>
+      v.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+
+    let timer: number | undefined;
+
+    input.addEventListener('input', () => {
+      const raw = input.value;
+      const q = norm(raw);
+      let visibles = 0;
+      for (const chip of chips) {
+        const show = !q || (chip.dataset.nombre ?? '').includes(q);
+        chip.hidden = !show;
+        if (show) visibles++;
+      }
+      const sinResultados = visibles === 0;
+      chipList.hidden = sinResultados;
+      empty.hidden = !sinResultados;
+      emptyQ.textContent = raw.trim();
+
+      // Analytics con debounce (en Flutter se mandaba por cada tecla).
+      window.clearTimeout(timer);
+      if (raw.trim()) {
+        timer = window.setTimeout(() => {
+          if (raw.trim().length >= 3) logSaborSearch(raw.trim());
+          logSaborResult(raw.trim(), visibles);
+        }, 800);
+      }
+    });
+  }
+</script>

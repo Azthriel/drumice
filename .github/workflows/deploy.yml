@@ -1,0 +1,41 @@
+name: Build y deploy
+
+# Corre al pushear a main, al tocar "Publicar cambios" en /admin
+# (repository_dispatch desde la Cloud Function) o a mano desde la pestaña Actions.
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['README.md', 'functions/**', '*.rules']
+  repository_dispatch:
+    types: [publicar]
+  workflow_dispatch:
+
+# Si publican dos veces seguidas, gana la última (lee los datos más nuevos).
+concurrency:
+  group: deploy-hosting
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build de Astro (lee sabores y promos de Firestore)
+        run: npm run build
+
+      - name: Deploy a Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_DRUMICE_EF734 }}
+          projectId: drumice-ef734
+          channelId: live

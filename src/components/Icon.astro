@@ -1,0 +1,59 @@
+---
+// Íconos de Font Awesome Free (CC BY 4.0) renderizados como SVG inline en el build.
+// Cero JS, cero fuentes de íconos: chau bug del tree-shaker de font_awesome_flutter.
+import {
+  faIceCream, faMagnifyingGlass, faFaceSadTear, faMountain, faMotorcycle,
+  faHouse, faListCheck, faBars, faBookOpen, faLocationDot, faSkull, faXmark,
+  faTags, faGlobe,
+} from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { faWhatsapp, faInstagram, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+
+const ICONS = {
+  iceCream: faIceCream,
+  magnifyingGlass: faMagnifyingGlass,
+  faceSadTear: faFaceSadTear,
+  mountain: faMountain,
+  motorcycle: faMotorcycle,
+  house: faHouse,
+  listCheck: faListCheck,
+  bars: faBars,
+  bookOpen: faBookOpen,
+  locationDot: faLocationDot,
+  skull: faSkull,
+  xmark: faXmark,
+  tags: faTags,
+  globe: faGlobe,
+  envelope: faEnvelope,
+  whatsapp: faWhatsapp,
+  instagram: faInstagram,
+  linkedinIn: faLinkedinIn,
+} as const;
+
+export type IconName = keyof typeof ICONS;
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+  label?: string; // si se pasa, el ícono deja de ser decorativo
+}
+
+const { name, size = 16, class: className, label } = Astro.props;
+const [width, height, , , path] = ICONS[name].icon;
+const paths = Array.isArray(path) ? path : [path];
+---
+
+<svg
+  class:list={['icon', className]}
+  viewBox={`0 0 ${width} ${height}`}
+  width={size}
+  height={size}
+  fill="currentColor"
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  focusable="false"
+>
+  {paths.map((d) => <path d={d} />)}
+</svg>

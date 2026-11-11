@@ -1,0 +1,27 @@
+rules_version = '2';
+
+// Fotos de promos: lectura pública, escritura/borrado solo para el admin.
+// Máximo 5 MB y solo imágenes (el panel ya las comprime a ~300-600 KB).
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'drumice26@gmail.com'
+        && request.auth.token.firebase.sign_in_provider == 'password';
+    }
+
+    match /promos/{file} {
+      allow read: if true;
+      allow create, update: if isAdmin()
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if isAdmin();
+    }
+
+    match /{everything=**} {
+      allow read, write: if false;
+    }
+  }
+}

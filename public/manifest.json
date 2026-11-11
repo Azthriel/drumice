@@ -1,0 +1,16 @@
+{
+  "name": "Drum Ice · Heladería artesanal",
+  "short_name": "Drum Ice",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFAECF",
+  "lang": "es-AR",
+  "description": "Heladería artesanal inspirada en Drum Island de One Piece. Pedidos por WhatsApp. Retiro y envíos a zona Hurlingham.",
+  "icons": [
+    { "src": "/icons/Icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/Icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/Icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/Icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

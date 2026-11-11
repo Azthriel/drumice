@@ -1,0 +1,167 @@
+---
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+import { waLink } from '../lib/site';
+
+interface Props {
+  showPromos: boolean;
+}
+const { showPromos } = Astro.props;
+
+const links: { href: string; label: string; icon: IconName }[] = [
+  { href: '#inicio', label: 'Inicio', icon: 'house' },
+  { href: '#historia', label: 'Historia', icon: 'bookOpen' },
+  ...(showPromos ? [{ href: '#promos', label: 'Promos', icon: 'tags' as IconName }] : []),
+  { href: '#sabores', label: 'Sabores', icon: 'iceCream' },
+  { href: '#pedidos', label: 'Pedidos', icon: 'whatsapp' },
+];
+---
+
+<header class="navbar">
+  <a href="#inicio" class="logo" aria-label="Drum Ice, ir al inicio">
+    <Icon name="iceCream" size={22} class="logo-icon" />
+    <span>Drum Ice</span>
+  </a>
+
+  <nav class="links" aria-label="Secciones">
+    {links.map((l) => <a href={l.href} class="nav-link">{l.label}</a>)}
+    <a
+      href={waLink()}
+      target="_blank"
+      rel="noopener"
+      class="btn btn-primary nav-cta"
+      data-wa-source="navbar_whatsapp_button"
+      aria-label="Hacer pedido por WhatsApp"
+    >
+      <Icon name="whatsapp" size={16} />
+      Pedir
+    </a>
+  </nav>
+
+  <details class="menu">
+    <summary aria-label="Abrir menú">
+      <Icon name="bars" size={22} />
+    </summary>
+    <nav class="menu-panel" aria-label="Secciones">
+      {
+        links.map((l) => (
+          <a href={l.href} class="menu-item">
+            <Icon name={l.icon} size={16} />
+            <span>{l.label}</span>
+          </a>
+        ))
+      }
+    </nav>
+  </details>
+</header>
+
+<style>
+  .navbar {
+    display: flex;
+    align-items: center;
+    padding: 14px 48px;
+    background: rgb(255 255 255 / 0.97);
+    border-bottom: 1px solid #ffe0ef;
+    position: relative;
+    z-index: 20;
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    line-height: 1.3;
+    color: var(--dark-brown);
+  }
+  .logo :global(.logo-icon) {
+    color: var(--pink);
+  }
+  .links {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
+  .nav-link {
+    padding: 8px 14px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--medium-brown);
+    transition: color 0.15s;
+  }
+  .nav-link:hover {
+    color: var(--pink);
+  }
+  .nav-cta {
+    margin-left: 12px;
+    padding: 12px 20px;
+  }
+
+  .menu {
+    display: none;
+    margin-left: auto;
+    position: relative;
+  }
+  .menu summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 8px;
+    color: var(--dark-brown);
+    display: flex;
+    border-radius: 50%;
+  }
+  .menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .menu-panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 4px);
+    min-width: 190px;
+    padding: 8px 0;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow:
+      0 6px 24px rgb(0 0 0 / 0.12),
+      0 1px 4px rgb(0 0 0 / 0.06);
+  }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--medium-brown);
+  }
+  .menu-item :global(.icon) {
+    color: var(--medium-brown);
+  }
+  .menu-item:hover {
+    background: var(--pale-pink);
+  }
+
+  @media (max-width: 767px) {
+    .navbar {
+      padding: 14px 20px;
+    }
+    .links {
+      display: none;
+    }
+    .menu {
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  // Cierra el menú mobile al elegir una opción o tocar afuera.
+  const menu = document.querySelector<HTMLDetailsElement>('.navbar .menu');
+  if (menu) {
+    menu.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('.menu-item')) menu.open = false;
+    });
+    document.addEventListener('click', (e) => {
+      if (menu.open && !menu.contains(e.target as Node)) menu.open = false;
+    });
+  }
+</script>

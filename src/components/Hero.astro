@@ -1,0 +1,199 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { waLink } from '../lib/site';
+import hero from '../assets/hero.png';
+
+interface Props {
+  totalSabores: number;
+}
+const { totalSabores } = Astro.props;
+---
+
+<section id="inicio" class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="badge">
+        <Icon name="mountain" size={12} />
+        Inspirado en Drum Island · One Piece
+      </p>
+
+      <h1 class="display-large title">
+        Drum Ice<span class="visually-hidden"> – Heladería artesanal en Hurlingham</span>
+      </h1>
+      <p class="subtitle">Heladería artesanal</p>
+
+      <p class="body-large lead">
+        El helado que cura todo. ✨<br />
+        {totalSabores} sabores artesanales únicos, inspirados en la magia de la ficción.
+        Pedidos por WhatsApp · Retiro y envíos a zona Hurlingham, Buenos Aires.
+      </p>
+
+      <div class="actions">
+        <a
+          href={waLink()}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-primary"
+          data-wa-source="hero_section"
+        >
+          <Icon name="whatsapp" size={18} />
+          Hacer pedido
+        </a>
+        <a href="#sabores" class="btn btn-outline">
+          <Icon name="iceCream" size={15} />
+          Ver sabores
+        </a>
+      </div>
+
+      <ul class="trust">
+        <li><Icon name="iceCream" size={14} /> {totalSabores} sabores</li>
+        <li><Icon name="motorcycle" size={14} /> Envíos a zona Hurlingham</li>
+        <li><Icon name="whatsapp" size={14} /> Pedido por WhatsApp</li>
+      </ul>
+    </div>
+
+    <div class="hero-illustration">
+      <div class="circle">
+        <Image
+          src={hero}
+          alt="Drum Ice - helados artesanales de Drum Island"
+          widths={[220, 380, 440, 760]}
+          sizes="(max-width: 767px) 220px, 380px"
+          loading="eager"
+          fetchpriority="high"
+          format="webp"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 88vh;
+    min-height: 88svh;
+    display: flex;
+    align-items: center;
+    padding: 72px var(--gutter);
+    background: linear-gradient(135deg, var(--pale-pink) 0%, var(--pale-blue) 100%);
+  }
+  .hero-inner {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 55fr 45fr;
+    column-gap: 40px;
+    align-items: center;
+  }
+  .hero-text {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-illustration {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+  }
+  .circle {
+    --size: 380px;
+    width: var(--size);
+    height: var(--size);
+    max-width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--soft-pink) 0%, var(--pale-pink) 80%);
+    box-shadow: 0 0 80px 20px rgb(255 174 207 / 0.35);
+    overflow: hidden;
+  }
+  .circle :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--light-blue);
+    background: rgb(174 223 247 / 0.35);
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 600;
+    color: var(--dark-brown);
+  }
+  .title {
+    margin-top: 20px;
+    font-size: 72px;
+  }
+  .subtitle {
+    font-size: 34px;
+    line-height: 1.1;
+    color: var(--berry);
+  }
+  .lead {
+    margin-top: 24px;
+    max-width: 500px;
+  }
+  .actions {
+    margin-top: 44px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+  }
+  .trust {
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+  .trust li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--medium-brown);
+  }
+  .trust :global(.icon) {
+    color: var(--pink);
+  }
+
+  @media (max-width: 767px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+    }
+    .hero-illustration {
+      grid-column: 1;
+      grid-row: 1;
+      margin-bottom: 40px;
+    }
+    .hero-text {
+      grid-column: 1;
+      grid-row: 2;
+      align-items: center;
+      text-align: center;
+    }
+    .circle {
+      --size: 220px;
+    }
+    .title {
+      font-size: 52px;
+    }
+    .subtitle {
+      font-size: 26px;
+    }
+    .actions,
+    .trust {
+      justify-content: center;
+    }
+  }
+</style>

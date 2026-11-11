@@ -1,0 +1,237 @@
+/* ── Tipografía de marca ──────────────────────────────────────────── */
+@font-face {
+  font-family: 'Bree Serif';
+  src: url('/fonts/BreeSerif-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Paleta (AppTheme de Flutter) ─────────────────────────────────── */
+:root {
+  --pink: #ffaecf;
+  --soft-pink: #ffd6e8;
+  --pale-pink: #fff0f6;
+  --light-blue: #aedff7;
+  --pale-blue: #eaf5ff;
+  --white: #ffffff;
+  --dark-brown: #3d2b1f;
+  --medium-brown: #7a5c4f;
+  --light-brown: #b89890;
+  --dark-bg: #1a1a2e;
+  --whatsapp: #25d366;
+  --lavender: #faf5ff;
+  --berry: #c06898;
+
+  --font: 'Bree Serif', Georgia, serif;
+  --gutter: 80px;
+  --section-y: 88px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 28px;
+  }
+}
+
+/* ── Base ─────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--dark-brown);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  font-weight: 400;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--dark-brown);
+  outline-offset: 3px;
+}
+
+.icon {
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+/* Escala tipográfica (TextTheme de Flutter) */
+.display-large {
+  font-size: 64px;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  color: var(--dark-brown);
+}
+.headline-large {
+  font-size: 36px;
+  line-height: 1.2;
+  color: var(--dark-brown);
+}
+.headline-medium {
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--dark-brown);
+}
+.headline-small {
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--dark-brown);
+}
+.body-large {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--medium-brown);
+}
+.body-medium {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--medium-brown);
+}
+.body-small {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--light-brown);
+}
+
+/* Secciones */
+.section {
+  padding: var(--section-y) var(--gutter);
+  scroll-margin-top: 0;
+}
+.section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.accent-bar {
+  width: 64px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--pink);
+  margin-top: 12px;
+}
+.accent-bar.blue {
+  background: var(--light-blue);
+}
+
+/* Grilla de 3 columnas (cards) */
+.cards-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 767px) {
+  .cards-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s,
+    box-shadow 0.15s,
+    transform 0.15s;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-primary {
+  background: var(--pink);
+  color: var(--dark-brown);
+  padding: 18px 32px;
+}
+.btn-primary:hover {
+  background: #ffa0c6;
+  box-shadow: 0 4px 14px rgb(255 174 207 / 0.45);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--dark-brown);
+  border: 1.5px solid var(--pink);
+  padding: 17px 28px;
+}
+.btn-outline:hover {
+  background: rgb(255 174 207 / 0.12);
+}
+.btn-whatsapp {
+  background: var(--whatsapp);
+  color: #fff;
+  padding: 20px 40px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.btn-whatsapp:hover {
+  background: #1fbe5b;
+  box-shadow: 0 6px 18px rgb(37 211 102 / 0.35);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

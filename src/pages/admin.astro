@@ -1,0 +1,557 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { ADMIN_EMAIL } from '../lib/firebase-config';
+---
+
+<Base title="Panel | Drum Ice" path="/admin" noindex>
+  <div class="admin">
+    <!-- ── Cargando ──────────────────────────────────────────── -->
+    <div id="loading" class="center-screen">
+      <Icon name="iceCream" size={40} class="pulse" />
+    </div>
+
+    <!-- ── Login ─────────────────────────────────────────────── -->
+    <div id="login" class="center-screen" hidden>
+      <form id="login-form" class="card login-card">
+        <p class="brand"><Icon name="iceCream" size={24} /> Drum Ice</p>
+        <h1 class="headline-medium">Panel de administración</h1>
+        <p class="body-small">Ingresando como {ADMIN_EMAIL}</p>
+        <label for="password" class="field-label">Contraseña</label>
+        <input id="password" type="password" autocomplete="current-password" required />
+        <p id="login-error" class="error" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primary full">Entrar</button>
+        <button type="button" id="forgot" class="link">Olvidé la contraseña</button>
+      </form>
+    </div>
+
+    <!-- ── Panel ─────────────────────────────────────────────── -->
+    <div id="app" hidden>
+      <header class="bar">
+        <p class="brand"><Icon name="iceCream" size={22} /> Drum Ice <span class="muted">· Panel</span></p>
+        <div class="bar-actions">
+          <a href="/" target="_blank" rel="noopener" class="link">Ver web</a>
+          <button type="button" id="salir" class="link">Salir</button>
+        </div>
+      </header>
+
+      <div class="publish card">
+        <div>
+          <p id="estado" class="estado" data-state="ok">Todo publicado</p>
+          <p id="estado-detalle" class="body-small"></p>
+        </div>
+        <button type="button" id="publicar" class="btn btn-whatsapp">Publicar cambios</button>
+      </div>
+
+      <nav class="tabs" role="tablist">
+        <button type="button" role="tab" class="tab" data-tab="sabores" aria-selected="true">
+          <Icon name="iceCream" size={15} /> Sabores <span id="count-sabores" class="count"></span>
+        </button>
+        <button type="button" role="tab" class="tab" data-tab="promos" aria-selected="false">
+          <Icon name="tags" size={15} /> Promos <span id="count-promos" class="count"></span>
+        </button>
+      </nav>
+
+      <!-- Sabores -->
+      <section id="tab-sabores" class="tab-panel">
+        <form id="sabor-form" class="card add-row">
+          <label for="sabor-nombre" class="visually-hidden">Nombre del sabor</label>
+          <input id="sabor-nombre" type="text" maxlength="60" placeholder="Nuevo sabor, ej: Pistacho" required />
+          <button type="submit" class="btn btn-primary">Agregar</button>
+        </form>
+
+        <div id="sabores-empty" class="card empty" hidden>
+          <p class="body-medium">Todavía no hay sabores cargados en la base de datos.</p>
+          <button type="button" id="importar" class="btn btn-outline">Importar los 30 sabores actuales</button>
+        </div>
+
+        <ul id="sabores-list" class="list" role="list"></ul>
+      </section>
+
+      <!-- Promos -->
+      <section id="tab-promos" class="tab-panel" hidden>
+        <form id="promo-form" class="card promo-form">
+          <label class="drop" for="promo-file">
+            <img id="promo-preview" alt="" hidden />
+            <span id="drop-text">
+              <strong>Elegí la foto de la promo</strong><br />
+              <span class="body-small">Formato historia (vertical 9:16). Se comprime sola.</span>
+            </span>
+          </label>
+          <input id="promo-file" type="file" accept="image/*" class="visually-hidden" required />
+          <div class="promo-fields">
+            <label for="promo-titulo" class="field-label">Título (para Google y el mensaje de WhatsApp)</label>
+            <input id="promo-titulo" type="text" maxlength="120" placeholder="Ej: 2x1 en cucuruchos" required />
+            <p id="promo-aviso" class="body-small aviso" hidden></p>
+            <progress id="promo-progress" max="100" value="0" hidden></progress>
+            <button type="submit" id="promo-subir" class="btn btn-primary">Subir promo</button>
+          </div>
+        </form>
+
+        <p id="promos-empty" class="body-medium muted center" hidden>No hay promos. La sección no se muestra en la web.</p>
+        <ul id="promos-list" class="promo-grid" role="list"></ul>
+      </section>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  </div>
+
+  <!-- Plantillas que clona el script -->
+  <template id="tpl-sabor">
+    <li class="row">
+      <div class="move">
+        <button type="button" data-act="up" aria-label="Subir">▲</button>
+        <button type="button" data-act="down" aria-label="Bajar">▼</button>
+      </div>
+      <input class="nombre" type="text" maxlength="60" aria-label="Nombre del sabor" />
+      <div class="toggles">
+        <button type="button" class="toggle t-nuevo" data-act="nuevo" aria-pressed="false">Nuevo</button>
+        <button type="button" class="toggle t-agotado" data-act="agotado" aria-pressed="false">Agotado</button>
+      </div>
+      <button type="button" class="icon-btn danger" data-act="borrar" aria-label="Borrar sabor">
+        <Icon name="xmark" size={16} />
+      </button>
+    </li>
+  </template>
+
+  <template id="tpl-promo">
+    <li class="promo-item card">
+      <img alt="" loading="lazy" />
+      <input class="titulo" type="text" maxlength="120" aria-label="Título de la promo" />
+      <div class="promo-actions">
+        <div class="move">
+          <button type="button" data-act="up" aria-label="Mover antes">◀</button>
+          <button type="button" data-act="down" aria-label="Mover después">▶</button>
+        </div>
+        <button type="button" class="toggle t-visible" data-act="activa" aria-pressed="true">Visible</button>
+        <button type="button" class="icon-btn danger" data-act="borrar" aria-label="Borrar promo">
+          <Icon name="xmark" size={16} />
+        </button>
+      </div>
+    </li>
+  </template>
+</Base>
+
+<style is:global>
+  .admin {
+    min-height: 100vh;
+    background: var(--lavender);
+    padding-bottom: 64px;
+  }
+  .admin .center-screen {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+  .admin [hidden] {
+    display: none !important;
+  }
+  .admin .pulse {
+    color: var(--pink);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    50% {
+      transform: scale(1.15);
+      opacity: 0.6;
+    }
+  }
+  .admin .card {
+    background: var(--white);
+    border: 1px solid rgb(255 174 207 / 0.3);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 3px 12px rgb(255 174 207 / 0.12);
+  }
+  .admin .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    color: var(--dark-brown);
+  }
+  .admin .brand .icon {
+    color: var(--pink);
+  }
+  .admin .muted {
+    color: var(--light-brown);
+  }
+  .admin .center {
+    text-align: center;
+    margin: 32px 0;
+  }
+  .admin input[type='text'],
+  .admin input[type='password'] {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 1.5px solid var(--light-blue);
+    background: var(--white);
+    font-size: 16px;
+    color: var(--dark-brown);
+    outline: none;
+  }
+  .admin input[type='text']:focus,
+  .admin input[type='password']:focus {
+    border-color: var(--pink);
+  }
+  .admin .field-label {
+    font-size: 14px;
+    color: var(--medium-brown);
+    margin: 16px 0 6px;
+    display: block;
+  }
+  .admin .error {
+    color: #c0392b;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  .admin .link {
+    background: none;
+    border: 0;
+    padding: 6px 4px;
+    cursor: pointer;
+    color: var(--medium-brown);
+    text-decoration: underline;
+    text-decoration-color: var(--pink);
+    text-underline-offset: 3px;
+    font-size: 15px;
+  }
+  .admin .btn {
+    padding: 12px 22px;
+    font-size: 16px;
+  }
+  .admin .btn:disabled {
+    opacity: 0.55;
+    cursor: wait;
+  }
+  .admin .full {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  /* Login */
+  .admin .login-card {
+    width: min(100%, 380px);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+  }
+  .admin .login-card h1 {
+    margin-top: 16px;
+  }
+  .admin .login-card .link {
+    margin-top: 12px;
+    align-self: center;
+  }
+
+  /* Barra + publicar */
+  .admin #app {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .admin .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+  }
+  .admin .bar-actions {
+    display: flex;
+    gap: 12px;
+  }
+  .admin .publish {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .admin .estado {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .admin .estado::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--whatsapp);
+  }
+  .admin .estado[data-state='pendiente']::before {
+    background: #f5a623;
+  }
+  .admin .estado[data-state='publicando']::before {
+    background: var(--light-blue);
+    animation: pulse 1s infinite;
+  }
+
+  /* Tabs */
+  .admin .tabs {
+    display: flex;
+    gap: 8px;
+    margin: 24px 0 16px;
+  }
+  .admin .tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1.5px solid rgb(255 174 207 / 0.5);
+    background: var(--white);
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--medium-brown);
+  }
+  .admin .tab[aria-selected='true'] {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: var(--dark-brown);
+  }
+  .admin .count {
+    font-size: 13px;
+    opacity: 0.75;
+  }
+
+  /* Sabores */
+  .admin .add-row {
+    display: flex;
+    gap: 10px;
+  }
+  .admin .empty {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .admin .list {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .admin .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 16px;
+    background: var(--white);
+    border: 1px solid rgb(255 174 207 / 0.3);
+  }
+  .admin .row .nombre {
+    flex: 1;
+    min-width: 0;
+    border-color: transparent;
+    padding: 8px 10px;
+  }
+  .admin .row .nombre:hover {
+    border-color: rgb(174 223 247 / 0.6);
+  }
+  .admin .move {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .admin .promo-actions .move {
+    flex-direction: row;
+  }
+  .admin .move button {
+    border: 0;
+    background: var(--pale-pink);
+    color: var(--medium-brown);
+    border-radius: 6px;
+    width: 28px;
+    height: 20px;
+    font-size: 10px;
+    cursor: pointer;
+  }
+  .admin .promo-actions .move button {
+    height: 32px;
+    width: 32px;
+    font-size: 12px;
+  }
+  .admin .move button:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+  .admin .toggles {
+    display: flex;
+    gap: 6px;
+  }
+  .admin .toggle {
+    border-radius: 999px;
+    border: 1.5px dashed var(--light-brown);
+    background: transparent;
+    color: var(--light-brown);
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .admin .toggle.t-nuevo[aria-pressed='true'] {
+    border: 1.5px solid var(--light-blue);
+    background: var(--light-blue);
+    color: var(--dark-brown);
+  }
+  .admin .toggle.t-agotado[aria-pressed='true'] {
+    border: 1.5px solid #e2d5d0;
+    background: #efe7e4;
+    color: var(--dark-brown);
+  }
+  .admin .toggle.t-visible[aria-pressed='true'] {
+    border: 1.5px solid var(--whatsapp);
+    background: rgb(37 211 102 / 0.12);
+    color: #1a8f47;
+  }
+  .admin .icon-btn {
+    border: 0;
+    background: transparent;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: var(--light-brown);
+  }
+  .admin .icon-btn.danger:hover {
+    background: #fdecea;
+    color: #c0392b;
+  }
+
+  /* Promos */
+  .admin .promo-form {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .admin .drop {
+    aspect-ratio: 9 / 16;
+    border-radius: 16px;
+    border: 2px dashed var(--pink);
+    background: var(--pale-pink);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 12px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    color: var(--medium-brown);
+  }
+  .admin .drop img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .admin .promo-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .admin .promo-fields .field-label {
+    margin-top: 0;
+  }
+  .admin .promo-fields .btn {
+    align-self: flex-start;
+    margin-top: 10px;
+  }
+  .admin .aviso {
+    color: #b9770e;
+  }
+  .admin progress {
+    width: 100%;
+    accent-color: var(--pink);
+  }
+  .admin .promo-grid {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+  }
+  .admin .promo-item {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .admin .promo-item img {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    border-radius: 12px;
+    background: var(--pale-blue);
+  }
+  .admin .promo-item.oculta img {
+    opacity: 0.4;
+  }
+  .admin .promo-item .titulo {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  .admin .promo-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .admin .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    background: var(--dark-bg);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 15px;
+    max-width: calc(100vw - 32px);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.2);
+    z-index: 50;
+  }
+  .admin .toast.err {
+    background: #c0392b;
+  }
+
+  @media (max-width: 600px) {
+    .admin .row {
+      flex-wrap: wrap;
+    }
+    .admin .row .nombre {
+      flex-basis: calc(100% - 90px);
+    }
+    .admin .toggles {
+      margin-left: 38px;
+      flex: 1;
+    }
+    .admin .promo-form {
+      grid-template-columns: 1fr;
+    }
+    .admin .drop {
+      width: 60%;
+      justify-self: center;
+    }
+    .admin .publish .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  import { initAdmin } from '../scripts/admin';
+  initAdmin();
+</script>

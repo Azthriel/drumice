@@ -1,0 +1,82 @@
+---
+// Port de QuarksFooter (Flutter) a Astro.
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+
+interface Props {
+  textColor?: string; // triple RGB, ej. '255 255 255'
+}
+const { textColor = '255 255 255' } = Astro.props;
+
+const socials: { icon: IconName; href: string; label: string }[] = [
+  { icon: 'envelope', href: 'mailto:consultas@quarks-studio.com', label: 'Email de Quarks Studio' },
+  { icon: 'whatsapp', href: 'https://wa.me/5491158557593', label: 'WhatsApp de Quarks Studio' },
+  { icon: 'instagram', href: 'https://www.instagram.com/quarksstudioapps/', label: 'Instagram de Quarks Studio' },
+  { icon: 'linkedinIn', href: 'https://www.linkedin.com/company/quarksstudio/', label: 'LinkedIn de Quarks Studio' },
+  { icon: 'globe', href: 'https://quarks-studio.com', label: 'Web de Quarks Studio' },
+];
+---
+
+<div class="quarks" style={`--t:${textColor}`}>
+  <p class="credit">
+    <img src="/images/isotipo.png" alt="" width="26" height="26" decoding="async" />
+    Desarrollado por
+    <a href="https://quarks-studio.com" target="_blank" rel="noopener">Quarks Studio</a>
+  </p>
+  <ul class="socials" role="list">
+    {
+      socials.map((s) => (
+        <li>
+          <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}>
+            <Icon name={s.icon} size={16} />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .quarks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px 32px;
+    padding: 12px 16px;
+    border-top: 1px solid rgb(var(--t) / 0.1);
+  }
+  .credit {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    font-size: 12px;
+    color: rgb(var(--t) / 0.7);
+  }
+  .credit img {
+    height: 26px;
+    width: auto;
+    margin-right: 10px;
+  }
+  .credit a {
+    margin-left: 0.3em;
+    font-weight: 700;
+    color: rgb(var(--t));
+  }
+  .socials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 16px;
+  }
+  .socials a {
+    display: grid;
+    place-items: center;
+    color: rgb(var(--t) / 0.7);
+    transition: color 0.15s;
+  }
+  .socials a:hover {
+    color: rgb(var(--t));
+  }
+</style>

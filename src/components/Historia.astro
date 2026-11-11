@@ -1,0 +1,126 @@
+---
+interface Props {
+  totalSabores: number;
+}
+const { totalSabores } = Astro.props;
+
+const cards = [
+  {
+    emoji: '🏔️',
+    bg: 'var(--pale-blue)',
+    accent: '174 223 247', // lightBlue
+    title: 'Drum Island',
+    text:
+      'Inspirados en la isla más nevada y acogedora de One Piece: el hogar del gran Doctor Tony Tony Chopper, donde la nieve y el cuidado van de la mano.',
+  },
+  {
+    emoji: '🍦',
+    bg: 'var(--pale-pink)',
+    accent: '255 174 207', // pink
+    title: `${totalSabores} Sabores`,
+    text:
+      'Cada sabor es una aventura. Desde los clásicos de siempre hasta creaciones únicas que no vas a encontrar en ningún otro lado.',
+  },
+  {
+    emoji: '📦',
+    bg: '#F0FFF4',
+    accent: '155 222 172',
+    title: 'Retiro y envíos',
+    text:
+      'Coordinás por WhatsApp y elegís: venís a retirar a Hurlingham o te lo llevamos a domicilio dentro de la zona.',
+  },
+];
+---
+
+<section id="historia" class="section historia">
+  <div class="section-head">
+    <h2 class="headline-large">¿Qué es Drum Ice?</h2>
+    <div class="accent-bar"></div>
+  </div>
+
+  <div class="cards-3 info-cards">
+    {
+      cards.map((c) => (
+        <article class="info-card" style={`--bg:${c.bg};--accent:${c.accent}`}>
+          <div class="emoji-box" aria-hidden="true">{c.emoji}</div>
+          <h3 class="headline-small">{c.title}</h3>
+          <p class="body-medium">{c.text}</p>
+        </article>
+      ))
+    }
+  </div>
+
+  <article class="story">
+    <span class="story-emoji" aria-hidden="true">🏴‍☠️</span>
+    <div>
+      <h3 class="headline-medium">La historia detrás de Drum Ice</h3>
+      <p class="body-large">
+        Drum Ice nació del amor por los helados artesanales y por One Piece. Drum Island es la isla de
+        Tony Tony Chopper, el médico más adorable de los Piratas Sombrero de Paja. Un lugar nevado,
+        mágico, donde todo parece curar el alma. Esa misma energía es la que queremos transmitir con
+        cada pote: helado hecho con cariño, sabores que sorprenden, y la calidez de algo verdaderamente
+        artesanal.
+      </p>
+    </div>
+  </article>
+</section>
+
+<style>
+  .historia {
+    background: var(--white);
+  }
+  .info-cards {
+    margin-top: 56px;
+  }
+  .info-card {
+    padding: 28px;
+    border-radius: 22px;
+    background: var(--bg);
+    border: 1px solid rgb(var(--accent) / 0.4);
+  }
+  .emoji-box {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: var(--white);
+    box-shadow: 0 4px 12px rgb(var(--accent) / 0.25);
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    line-height: 1;
+  }
+  .info-card h3 {
+    margin-top: 18px;
+  }
+  .info-card p {
+    margin-top: 10px;
+  }
+
+  .story {
+    margin-top: 72px;
+    padding: 52px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--pale-blue), var(--pale-pink));
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  .story-emoji {
+    font-size: 64px;
+    line-height: 1.15;
+  }
+  .story p {
+    margin-top: 16px;
+  }
+
+  @media (max-width: 767px) {
+    .story {
+      flex-direction: column;
+      gap: 16px;
+      padding: 28px;
+    }
+    .story-emoji {
+      font-size: 48px;
+    }
+  }
+</style>

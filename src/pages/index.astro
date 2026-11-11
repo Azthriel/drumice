@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Historia from '../components/Historia.astro';
+import Promos from '../components/Promos.astro';
+import Sabores from '../components/Sabores.astro';
+import Pedidos from '../components/Pedidos.astro';
+import Footer from '../components/Footer.astro';
+import { getPromos, getSabores } from '../lib/data';
+import { PHONE, SITE, waLink } from '../lib/site';
+
+const [sabores, promos] = await Promise.all([getSabores(), getPromos()]);
+const total = sabores.length;
+
+const description =
+  `Drum Ice: ${total} sabores de helado artesanal inspirados en Drum Island de One Piece. ` +
+  `Pedidos por WhatsApp al ${PHONE.display}. Retiro y envíos a zona Hurlingham, Buenos Aires.`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'IceCreamShop',
+  '@id': `${SITE.url}/#negocio`,
+  name: SITE.name,
+  description: 'Heladería artesanal temática inspirada en Drum Island de One Piece.',
+  url: SITE.url,
+  image: `${SITE.url}/og-image.png`,
+  logo: `${SITE.url}/icons/Icon-512.png`,
+  telephone: PHONE.e164,
+  priceRange: '$$',
+  servesCuisine: 'Helado artesanal',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: SITE.locality,
+    addressRegion: SITE.region,
+    addressCountry: 'AR',
+  },
+  areaServed: { '@type': 'City', name: SITE.locality },
+  sameAs: [SITE.instagram],
+  potentialAction: {
+    '@type': 'OrderAction',
+    target: waLink(),
+    deliveryMethod: ['http://purl.org/goodrelations/v1#DeliveryModePickUp', 'http://purl.org/goodrelations/v1#DeliveryModeOwnFleet'],
+  },
+  hasMenu: {
+    '@type': 'Menu',
+    name: 'Sabores',
+    hasMenuSection: {
+      '@type': 'MenuSection',
+      name: 'Sabores de helado artesanal',
+      hasMenuItem: sabores.map((s) => ({ '@type': 'MenuItem', name: s.nombre })),
+    },
+  },
+};
+---
+
+<Base description={description} jsonLd={jsonLd}>
+  <Navbar showPromos={promos.length > 0} />
+  <main>
+    <Hero totalSabores={total} />
+    <Historia totalSabores={total} />
+    {promos.length > 0 && <Promos promos={promos} />}
+    <Sabores sabores={sabores} />
+    <Pedidos totalSabores={total} />
+  </main>
+  <Footer />
+</Base>
